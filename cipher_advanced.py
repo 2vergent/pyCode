@@ -33,7 +33,7 @@ if (choicer == 'decode'):
 	cipher = cipherin.lower()
 	ciplet = list(cipher)
 	de = []
-	alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+	alphabet = list(map(chr, range(97, 123)))
 	
 	# Takes each letter from user input and compares with the list of alphabets
 	# If shift is given as 0, the program calculates and prints all the 25 shifts
