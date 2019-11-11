@@ -47,6 +47,11 @@ def login(u,p):
 		f = open("udata.txt","w")
 		f.close()
 		f = open("udata.txt","r")
+	size = os.path.getsize('/storage/emulated/0/pyjournal/udata.txt')
+	if  size == 0:
+		print("No user credentials found. Please signup and create one.")
+		print("-"*50)
+		exit(0)
 	b = False
 	for x in f:
 		line = x
@@ -358,7 +363,10 @@ def journal(u,p):
 				entryout = entryout.replace("([])"," ")
 		print("> ENTRIES DATED %s" % entrydate)
 		print("-"*50)
-		print("    %s" % entryout)
+		if entryout == "":
+			print("  No entries on this day.")
+		else:
+			print("    %s" % entryout)
 		print("-"*50)
 	
 
