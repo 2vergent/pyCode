@@ -303,9 +303,9 @@ def journal(u,p):
 		entryin = input("  ENTRY:> ")
 		print("-"*50)
 		entryin = entryin.strip()
-		entryin = entryin.replace(" ","([])")
+		encred = encrypt(entryin,p)
 		entry.write(sdate)
-		entry.write("%s\n" % entryin)
+		entry.write("%s\n" % encred[0])
 	elif choice == "check":
 		entrydate = input("  DATE (dd/mm/yyyy):> ")
 		def checkdate(edate):
@@ -350,7 +350,7 @@ def journal(u,p):
 				entrydate = input("  DATE (dd/mm/yyyy):> ")
 		print("-"*50)
 		entry = open('%s.txt' % d,'r')
-		entryout = ""
+		entryout,out = [],""
 		entrydate = entrydate.replace("/",".")
 		for x in entry:
 			line = x
@@ -359,14 +359,16 @@ def journal(u,p):
 				l += x
 			l = l.split(' ')
 			if l[0] == entrydate:
-				entryout += l[2] + "    "
-				entryout = entryout.replace("([])"," ")
+				entryout.append(l[2].strip())
+		for x in entryout:
+			decred = decrypt(x,p)
+			out += decred[0] + '\n    '
 		print("> ENTRIES DATED %s" % entrydate)
 		print("-"*50)
-		if entryout == "":
+		if out == "":
 			print("  No entries on this day.")
 		else:
-			print("    %s" % entryout)
+			print("    %s" % out)
 		print("-"*50)
 	
 
