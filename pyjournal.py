@@ -1,4 +1,4 @@
-import time, sys, os
+import time, sys, os, platform
 from datetime import date
 
 
@@ -8,7 +8,7 @@ def progress():
 	sys.stdout.write("[%s]" % ("-" * toolbar_width))
 	sys.stdout.flush()
 	sys.stdout.write("\b" * (toolbar_width+1))
-	for x in range(toolbar_width):
+	for _ in range(toolbar_width):
 	    time.sleep(0.03)
 	    sys.stdout.write("#")
 	    sys.stdout.flush()	
@@ -33,21 +33,57 @@ def signup(u,p):
 
 def login(u,p):
 	
-	try:
-		os.chdir('/storage/emulated/0/pyjournal')
+	if platform.system() == "Linux":
+		if 'ANDROID_STORAGE' in os.environ:
+			try:
+				os.chdir('/storage/emulated/0/pyjournal')
+				f = open("udata.txt","r")
+			except:
+				os.makedirs('/storage/emulated/0/pyjournal')
+				os.chdir('/storage/emulated/0/pyjournal')
+				f = open("udata.txt","w")
+				f.close()
+				f = open("udata.txt","r")
+		else:
+			try:
+				os.chdir('/pyjournal')
+				f = open("udata.txt","r")
+			except:
+				os.makedirs('/pyjournal')
+				os.chdir('/pyjournal')
+				f = open("udata.txt","w")
+				f.close()
+				f = open("udata.txt","r")
+	elif platform.system() == "Windows":
 		try:
-			f = open('udata.txt','r')
+			os.chdir('C:/Users/%s/Documents/pyjournal' % os.getenv('username'))
+			f = open("udata.txt","r")
 		except:
-			f = open('udata.txt','w')
+			os.chdir('C:/Users/%s/Documents' % os.getenv('username'))
+			os.mkdir('pyjournal')
+			os.chdir('C:/Users/%s/Documents/pyjournal' % os.getenv('username'))
+			f = open("udata.txt","w")
 			f.close()
-			f = open('udata.txt','r')
-	except:
-		os.makedirs('/storage/emulated/0/pyjournal')
-		os.chdir('/storage/emulated/0/pyjournal')
-		f = open("udata.txt","w")
-		f.close()
-		f = open("udata.txt","r")
-	size = os.path.getsize('/storage/emulated/0/pyjournal/udata.txt')
+			f = open("udata.txt","r")
+	else:
+		try:
+			os.chdir('/pyjournal')
+			f = open("udata.txt","r")
+		except:
+			os.makedirs('/pyjournal')
+			os.chdir('/pyjournal')
+			f = open("udata.txt","w")
+			f.close()
+			f = open("udata.txt","r")
+	if platform.system() == "Linux":
+		if 'ANDROID_STORAGE' in os.environ:
+			size = os.path.getsize('/storage/emulated/0/pyjournal/udata.txt')
+		else:
+			size = os.path.getsize('/pyjournal/udata.txt')
+	elif platform.system() == "Windows":
+		size = os.path.getsize('C:/Users/%s/Documents/pyjournal/udata.txt' % os.getenv('username'))
+	else:
+		size = os.path.getsize('/pyjournal/udata.txt')
 	if  size == 0:
 		print("No user credentials found. Please signup and create one.")
 		print("-"*50)
@@ -166,22 +202,61 @@ def login_or_signup(log):
 	if log == 'signup':
 		progress()
 		q = False
-		spaces,r = 0,0
+		spaces, r = 0, 0
 		def us():
 			print("-"*50)
-			use = input("  USERNAME:> ")
+			q = False
+			while q == False:
+				try:
+					use = input("  USERNAME:> ")
+					q = True
+				except:
+					continue
 			return use
 		def check(u):
 			c = True
-			try:
-				os.chdir('/storage/emulated/0/pyjournal')
-				f = open("udata.txt","r")
-			except:
-				os.makedirs('/storage/emulated/0/pyjournal')
-				os.chdir('/storage/emulated/0/pyjournal')
-				f = open("udata.txt","w")
-				f.close()
-				f = open("udata.txt","r")
+			if platform.system() == "Linux":
+				if 'ANDROID_STORAGE' in os.environ:
+					try:
+						os.chdir('/storage/emulated/0/pyjournal')
+						f = open("udata.txt","r")
+					except:
+						os.makedirs('/storage/emulated/0/pyjournal')
+						os.chdir('/storage/emulated/0/pyjournal')
+						f = open("udata.txt","w")
+						f.close()
+						f = open("udata.txt","r")
+				else:
+					try:
+						os.chdir('/pyjournal')
+						f = open("udata.txt","r")
+					except:
+						os.makedirs('/pyjournal')
+						os.chdir('/pyjournal')
+						f = open("udata.txt","w")
+						f.close()
+						f = open("udata.txt","r")
+			elif platform.system() == "Windows":
+				try:
+					os.chdir('C:/Users/%s/Documents/pyjournal' % os.getenv('username'))
+					f = open("udata.txt","r")
+				except:
+					os.chdir('C:/Users/%s/Documents' % os.getenv('username'))
+					os.mkdir('pyjournal')
+					os.chdir('C:/Users/%s/Documents/pyjournal' % os.getenv('username'))
+					f = open("udata.txt","w")
+					f.close()
+					f = open("udata.txt","r")
+			else:
+				try:
+					os.chdir('/pyjournal')
+					f = open("udata.txt","r")
+				except:
+					os.makedirs('/pyjournal')
+					os.chdir('/pyjournal')
+					f = open("udata.txt","w")
+					f.close()
+					f = open("udata.txt","r")
 			for x in f:	
 				line = x
 				l = ""
@@ -198,7 +273,6 @@ def login_or_signup(log):
 					print("-"*50)
 					c = False
 					return c
-					break
 		while r == False:
 			user = us()
 			r = check(user)
@@ -209,12 +283,25 @@ def login_or_signup(log):
 			if len(user) >= 5 and spaces == 0:
 				q = True
 			else:
-				print("Username should not contain spaces and should be atleast 5 characters long. Please enter a new one.")
 				print("-"*50)
-				user = input("  USERNAME:> ")
-		q = False
+				print("Username should not contain spaces and should be atleast 5 characters long.")
+				print("-"*50)
+				v = False
+				while v == False:
+					try:
+						user = input("  USERNAME:> ")
+						v = True
+					except:
+						continue
 		print("-"*50)
-		passwrd = input("  PASSWORD:> ")
+		v = False
+		while v == False:
+			try:
+				passwrd = input("  PASSWORD:> ")
+				v = True
+			except:
+				continue
+		q = False
 		while q == False:
 			special = 0
 			numbers = 0
@@ -229,84 +316,105 @@ def login_or_signup(log):
 				print("-"*50)
 				print("Password must have special characters,numbers and should be at least 5 characters long.")
 				print("-"*50)
-				passwrd = input("  PASSWORD:> ")
+				v = False
+				while v == False:
+					try:
+						passwrd = input("  PASSWORD:> ")
+						v = True
+					except:
+						continue
 
 		signup(user,passwrd)
 
 	elif log == 'login':
 		progress()
 		print("-"*50)
-		user = input("  USERNAME:> ")
+		v = False
+		while v == False:
+			try:
+				user = input("  USERNAME:> ")
+				v = True
+			except:
+				continue
 		print("-"*50)
-		passwrd = input("  PASSWORD:> ")
+		v = False
+		while v == False:
+			try:
+				passwrd = input("  PASSWORD:> ")
+				v = True
+			except:
+				continue
 		print("-"*50)
 
 		login(user,passwrd)
-	
-
-def inputchoice():
-		
-	q = False
-	print("-"*50)
-	print("Do you want to Login or Signup ?")
-	print("-"*50)
-	choice = input("> ")
-	print("-"*50)
-	while q == False:
-		choice = choice.lower()
-		choice = choice.strip()
-		if choice == "login" or choice == "signup":
-			q = True
-		else:
-			print("-"*50)
-			print("Do you want to Login or Signup ?")
-			print("-"*50)
-			choice = input("> ")
-			print("-"*50)
-	
-	login_or_signup(choice)
 
 
 def journal(u,p):
 	
 	username = encrypt(u,p)
-	try:
-		os.chdir('/storage/emulated/0/pyjournal/%s' % username[0])
-	except:
-		os.chdir('/storage/emulated/0/pyjournal')
-		os.mkdir(username[0])
-		os.chdir('/storage/emulated/0/pyjournal/%s' % username[0])
+	if platform.system() == "Linux":
+		if 'ANDROID_STORAGE' in os.environ:
+			try:
+				os.chdir('/storage/emulated/0/pyjournal/%s' % username[0])
+			except:
+				os.chdir('/storage/emulated/0/pyjournal')
+				os.mkdir(username[0])
+				os.chdir('/storage/emulated/0/pyjournal/%s' % username[0])
+		else:
+			try:
+				os.chdir('/pyjournal/%s' % username[0])
+			except:
+				os.chdir('/pyjournal')
+				os.mkdir(username[0])
+				os.chdir('/pyjournal/%s' % username[0])
+	elif platform.system() == "Windows":
+		try:
+			os.chdir('C:/Users/%s/Documents/pyjournal/%s' % (os.getenv('username'),username[0]))
+		except:
+			os.chdir('C:/Users/%s/Documents/pyjournal' % os.getenv('username'))
+			os.mkdir(username[0])
+			os.chdir('C:/Users/%s/Documents/pyjournal/%s' % (os.getenv('username'),username[0]))
+	else:
+		try:
+			os.chdir('/pyjournal/%s' % username[0])
+		except:
+			os.chdir('/pyjournal')
+			os.mkdir(username[0])
+			os.chdir('/pyjournal/%s' % username[0])
 	today = date.today()
 	d = today.strftime("%d/%m/%Y")
 	d = d.split("/")
 	d = '.'.join(d)
 	entry = open('%s.txt' % d,'a')
-	print("-"*50)
-	print("Do you want to make an Entry or Check previous entries?")
-	print("-"*50)
-	choice = input("> ")
-	print("-"*50)
-	q = False
-	while q == False:
-		choice = choice.lower()
-		choice = choice.strip()
-		if choice == "check" or choice == "entry":
-			q = True
-		else:
+	v = False
+	while v == False:
+		try:
 			print("-"*50)
 			print("Do you want to make an Entry or Check previous entries ?")
 			print("-"*50)
 			choice = input("> ")
-			print("-"*50)
+			choice = choice.lower()
+			choice = choice.strip()
+			if choice == "check" or choice == "entry":
+				v = True
+		except:
+			continue
+	print("-"*50)
 	if choice == "entry":
-		#sdate = "%s ()[]{} " % d
 		entryin = input("  ENTRY:> ")
 		print("-"*50)
 		encred = encrypt(entryin,p)
-		#entry.write(sdate)
 		entry.write("%s\n" % encred[0])
 	elif choice == "check":
-		entrydate = input("  DATE (dd/mm/yyyy):> ")
+		v = False
+		while v == False:
+			try:
+				entrydate = input("  DATE (dd/mm/yyyy):> ")
+				testdate = entrydate.split("/")
+				_ = int(testdate[1])
+				v = True
+			except:
+				continue
 		def checkdate(edate):
 			edate = edate.strip()
 			datelist = edate.split("/")
@@ -362,12 +470,31 @@ def journal(u,p):
 		for x in entryout:
 			decred = decrypt(x,p)
 			out += decred[0] + '\n    '
-		print("> ENTRIES DATED %s" % entrydate)
+		out = out.strip()
+		print("> ENTRIES DATED %s :" % entrydate)
 		print("-"*50)
 		print("    %s" % out)
 		print("-"*50)
+
+
+def inputchoice():
+		
+	q = False
+	while q == False:
+		try:
+			print("-"*50)
+			print("Do you want to Login or Signup ?")
+			print("-"*50)
+			choice = input("> ")
+			print("-"*50)
+			choice = choice.lower()
+			choice = choice.strip()
+			if choice == "login" or choice == "signup":
+				q = True
+		except:
+			continue
 	
+	login_or_signup(choice)
 
 
 inputchoice()
-	
