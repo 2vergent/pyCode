@@ -412,6 +412,7 @@ def journal(u,p):
 				entrydate = input("  DATE (dd/mm/yyyy):> ")
 				testdate = entrydate.split("/")
 				_ = int(testdate[1])
+				_ = int(testdate[2])
 				v = True
 			except:
 				continue
