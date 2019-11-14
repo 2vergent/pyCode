@@ -299,12 +299,11 @@ def journal(u,p):
 			choice = input("> ")
 			print("-"*50)
 	if choice == "entry":
-		sdate = "%s ()[]{} " % d
+		#sdate = "%s ()[]{} " % d
 		entryin = input("  ENTRY:> ")
 		print("-"*50)
-		entryin = entryin.strip()
 		encred = encrypt(entryin,p)
-		entry.write(sdate)
+		#entry.write(sdate)
 		entry.write("%s\n" % encred[0])
 	elif choice == "check":
 		entrydate = input("  DATE (dd/mm/yyyy):> ")
@@ -349,26 +348,23 @@ def journal(u,p):
 				print("-"*50)
 				entrydate = input("  DATE (dd/mm/yyyy):> ")
 		print("-"*50)
-		entry = open('%s.txt' % d,'r')
-		entryout,out = [],""
-		entrydate = entrydate.replace("/",".")
-		for x in entry:
-			line = x
-			l = ""
-			for x in line:
-				l += x
-			l = l.split(' ')
-			if l[0] == entrydate:
-				entryout.append(l[2].strip())
+		entrydate = entrydate.replace('/','.')
+		try:
+			entry = open('%s.txt' % entrydate,'r')
+		except:
+			print("> ENTRIES DATED %s" % entrydate)
+			print("-"*50)
+			print("  No entries on this day")
+			print("-"*50)
+			exit(0)
+		entryout = entry.readlines()
+		out = ''
 		for x in entryout:
 			decred = decrypt(x,p)
 			out += decred[0] + '\n    '
 		print("> ENTRIES DATED %s" % entrydate)
 		print("-"*50)
-		if out == "":
-			print("  No entries on this day.")
-		else:
-			print("    %s" % out)
+		print("    %s" % out)
 		print("-"*50)
 	
 
