@@ -476,6 +476,22 @@ def journal(u,p):
 		print("-"*50)
 		print("    %s" % out)
 		print("-"*50)
+		v = False
+		while v == False:
+			try:
+				print("-"*50)
+				print("Type Exit to quit.")
+				print("-"*50)
+				a = input("> ")
+				print("-"*50)
+				a = a.lower()
+				a = a.strip()
+				if a == "exit":
+					v = True
+				else:
+					continue
+			except:
+				continue
 
 
 def inputchoice():
