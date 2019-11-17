@@ -85,7 +85,7 @@ def actuallogin(u,p):
 	else:
 		size = os.path.getsize('/pyjournal/udata.txt')
 	if  size == 0:
-		print("No user credentials found. Please signup and create one.")
+		print("> No user credentials found. Please signup for creating a new one.")
 		print("-"*50)
 		exit(0)
 	b = False
@@ -268,7 +268,7 @@ def signup():
 			d = decrypt(l[0],l3)
 			if u == d[0]:
 				print("-"*50)
-				print("Username already exists. Please enter a new one...")
+				print("> Username already exists. Please enter a new one...")
 				print("-"*50)
 				c = False
 				return c
@@ -283,7 +283,7 @@ def signup():
 			q = True
 		else:
 			print("-"*50)
-			print("Username should not contain spaces and should be atleast 5 characters long.")
+			print("> Username should not contain spaces and should be atleast 5 characters long.")
 			print("-"*50)
 			v = False
 			while v == False:
@@ -313,7 +313,7 @@ def signup():
 			q = True
 		else:
 			print("-"*50)
-			print("Password must have special characters,numbers and should be at least 5 characters long.")
+			print("> Password must have special characters,numbers and should be at least 5 characters long.")
 			print("-"*50)
 			v = False
 			while v == False:
@@ -396,11 +396,11 @@ def journal(u,p):
 				v = True
 			elif choice == "login":
 				print("-"*50)
-				print("You are already logged in.")
+				print("> You are already logged in.")
 				print("-"*50)
 			elif choice == "signup":
 				print("-"*50)
-				print("You already have a journal.")
+				print("> You already have a journal.")
 				print("-"*50)
 			elif choice == "kill":
 				os._exit(0)
@@ -460,7 +460,7 @@ def journal(u,p):
 				q = True
 			else:
 				print("-"*50)
-				print("You entered an invalid date.")
+				print("> You entered an invalid date.")
 				print("-"*50)
 				entrydate = input("  DATE (dd/mm/yyyy):> ")
 		print("-"*50)
