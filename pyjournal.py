@@ -1,4 +1,4 @@
-import time, sys, os, platform
+import time, sys, os, platform, getpass
 from datetime import date
 
 
@@ -296,7 +296,7 @@ def signup():
 	v = False
 	while v == False:
 		try:
-			passwrd = input("  PASSWORD:> ")
+			passwrd = getpass.getpass("  PASSWORD:> ")
 			v = True
 		except:
 			continue
@@ -318,7 +318,7 @@ def signup():
 			v = False
 			while v == False:
 				try:
-					passwrd = input("  PASSWORD:> ")
+					passwrd = getpass.getpass("  PASSWORD:> ")
 					v = True
 				except:
 					continue
@@ -340,7 +340,7 @@ def login():
 	v = False
 	while v == False:
 		try:
-			passwrd = input("  PASSWORD:> ")
+			passwrd = getpass.getpass("  PASSWORD:> ")
 			v = True
 		except:
 			continue
@@ -533,4 +533,6 @@ print("#"*50)
 print("                PYJOURNAL                ")
 print("#"*50)
 print("-"*50)
+
+
 inputchoice()
