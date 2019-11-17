@@ -535,7 +535,7 @@ def inputchoice():
 
 
 print("-"*67)
-print("[                            pyJournal                            ]")
+print("[                         pyJournal v2.2.5                        ]")
 print("-"*67)
 print("\n")
 
