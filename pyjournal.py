@@ -21,11 +21,11 @@ def actualsignup(u,p):
 	encred = encrypt(u,p)
 	f.write("%s " % encred[0])
 	f.write("%s\n" % encred[1])
-	print("-"*50)
+	print("-"*67)
 	progress()
-	print("-"*50)
+	print("-"*67)
 	print("> Your credentials have been accepted.")
-	print("-"*50)
+	print("-"*67)
 	f.close()
 
 	inputchoice()
@@ -86,7 +86,7 @@ def actuallogin(u,p):
 		size = os.path.getsize('/pyjournal/udata.txt')
 	if  size == 0:
 		print("> No user credentials found. Please signup for creating a new one.")
-		print("-"*50)
+		print("-"*67)
 		exit(0)
 	b = False
 	for x in f:
@@ -103,18 +103,18 @@ def actuallogin(u,p):
 		pas = decred[1]
 		if us == u and pas == p:
 			progress()
-			print("-"*50)
+			print("-"*67)
 			print("> You have been logged in.")
-			print("-"*50)
+			print("-"*67)
 			print("\n")
 			journal(u,p)
 			b = True
 			break
 	if b == False:
 		progress()
-		print("-"*50)
+		print("-"*67)
 		print("> You have entered invalid credentials.")
-		print("-"*50)
+		print("-"*67)
 		print("\n")
 	f.close()
 
@@ -201,9 +201,9 @@ def signup():
 
 	progress()
 	q = False
-	spaces, r = 0, 0
+	r = 0
 	def us():
-		print("-"*50)
+		print("-"*67)
 		q = False
 		while q == False:
 			try:
@@ -267,24 +267,24 @@ def signup():
 			l3 = ''.join(l2)
 			d = decrypt(l[0],l3)
 			if u == d[0]:
-				print("-"*50)
-				print("> Username already exists. Please enter a new one...")
-				print("-"*50)
+				print("-"*67)
+				print("> Username already exists")
 				c = False
 				return c
 	while r == False:
 		user = us()
 		r = check(user)
 	while q == False:
+		spaces = 0
 		for x in user:
 			if x.isspace():
 				spaces+= 1
 		if len(user) >= 5 and spaces == 0:
 			q = True
 		else:
-			print("-"*50)
+			print("-"*67)
 			print("> Username should not contain spaces and should be atleast 5 characters long.")
-			print("-"*50)
+			print("-"*67)
 			v = False
 			while v == False:
 				try:
@@ -292,7 +292,7 @@ def signup():
 					v = True
 				except:
 					continue
-	print("-"*50)
+	print("-"*67)
 	v = False
 	while v == False:
 		try:
@@ -312,9 +312,9 @@ def signup():
 		if special >= 1 and numbers >= 1 and len(passwrd) >= 5:
 			q = True
 		else:
-			print("-"*50)
+			print("-"*67)
 			print("> Password must have special characters,numbers and should be at least 5 characters long.")
-			print("-"*50)
+			print("-"*67)
 			v = False
 			while v == False:
 				try:
@@ -328,7 +328,7 @@ def signup():
 def login():
 
 	progress()
-	print("-"*50)
+	print("-"*67)
 	v = False
 	while v == False:
 		try:
@@ -336,7 +336,7 @@ def login():
 			v = True
 		except:
 			continue
-	print("-"*50)
+	print("-"*67)
 	v = False
 	while v == False:
 		try:
@@ -344,7 +344,7 @@ def login():
 			v = True
 		except:
 			continue
-	print("-"*50)
+	print("-"*67)
 
 	actuallogin(user,passwrd)
 
@@ -389,36 +389,36 @@ def journal(u,p):
 	v = False
 	while v == False:
 		try:
-			choice = input("<%s@pyjournal> " % u)
+			choice = input("<%s@pyj> " % u)
 			choice = choice.lower()
 			choice = choice.strip()
 			if choice == "check" or choice == "entry":
 				v = True
 			elif choice == "login":
-				print("-"*50)
-				print("> You are already logged in.")
-				print("-"*50)
+				print("-"*67)
+				print("> You are already logged in")
+				print("-"*67)
 			elif choice == "signup":
-				print("-"*50)
-				print("> You already have a journal.")
-				print("-"*50)
+				print("-"*67)
+				print("> You already have a journal")
+				print("-"*67)
 			elif choice == "kill":
 				os._exit(0)
 			elif choice == "help":
-				print("-"*50)
+				print("-"*67)
 				print("   entry: Adds a new entry to your journal for this day\n   check: Accepts a date and checks previous entries in your journal")
-				print("-"*50)
+				print("-"*67)
 			else:
-				print("-"*50)
-				print("  Type help for more info")
-				print("-"*50)
+				print("-"*67)
+				print("   Command not found. Type help for more info")
+				print("-"*67)
 		except:
-			print("  Type help for more info")
+			print("   Command not found. Type help for more info")
 			continue
-	print("-"*50)
+	print("-"*67)
 	if choice == "entry":
 		entryin = input("  ENTRY:> ")
-		print("-"*50)
+		print("-"*67)
 		encred = encrypt(entryin,p)
 		entry.write("%s\n" % encred[0])
 	elif choice == "check":
@@ -468,19 +468,19 @@ def journal(u,p):
 			if z == True:
 				q = True
 			else:
-				print("-"*50)
+				print("-"*67)
 				print("> You entered an invalid date.")
-				print("-"*50)
+				print("-"*67)
 				entrydate = input("  DATE (dd/mm/yyyy):> ")
-		print("-"*50)
+		print("-"*67)
 		entrydate = entrydate.replace('/','.')
 		try:
 			entry = open('%s.txt' % entrydate,'r')
 		except:
 			print("> ENTRIES DATED %s" % entrydate)
-			print("-"*50)
+			print("-"*67)
 			print("  No entries on this day")
-			print("-"*50)
+			print("-"*67)
 			exit(0)
 		entryout = entry.readlines()
 		out = ''
@@ -489,9 +489,9 @@ def journal(u,p):
 			out += decred[0] + '\n    '
 		out = out.strip()
 		print("> ENTRIES DATED %s :" % entrydate)
-		print("-"*50)
+		print("-"*67)
 		print("    %s" % out)
-		print("-"*50)
+		print("-"*67)
 
 		inputchoice()
 
@@ -501,7 +501,7 @@ def inputchoice():
 	q = False
 	while q == False:
 		try:
-			choice = input("</@pyjournal> ")
+			choice = input("<root@pyj> ")
 			choice = choice.lower()
 			choice = choice.strip()
 			if choice == "login":
@@ -520,22 +520,22 @@ def inputchoice():
 				else:
 					os.system('clear')
 			elif choice == "help":
-				print("-"*50)
+				print("-"*67)
 				print("To get started with pyjournal, type any of these commands:\n\n   login: Enter your username and password to access your journal\n   signup: Enter a new username and password to create your journal\n   clear: Clears the screen")
-				print("-"*50)
+				print("-"*67)
 			else:
-				print("-"*50)
-				print("Type help for more info")
-				print("-"*50)
+				print("-"*67)
+				print("   Command not found. Type help for more info")
+				print("-"*67)
 		except:
-			print("-"*50)
-			print("Type help for more info")
-			print("-"*50)
+			print("-"*67)
+			print("   Command not found. Type help for more info")
+			print("-"*67)
 			continue
 
 
 print("-"*67)
-print("[                            pyJOURNAL                            ]")
+print("[                            pyJournal                            ]")
 print("-"*67)
 print("\n")
 
