@@ -523,16 +523,21 @@ def inputchoice():
 				print("-"*50)
 				print("To get started with pyjournal, type any of these commands:\n\n   login: Enter your username and password to access your journal\n   signup: Enter a new username and password to create your journal\n   clear: Clears the screen")
 				print("-"*50)
+			else:
+				print("-"*50)
+				print("Type help for more info")
+				print("-"*50)
 		except:
+			print("-"*50)
 			print("Type help for more info")
+			print("-"*50)
 			continue
 
 
-print("-"*50)
-print("#"*50)
-print("                PYJOURNAL                ")
-print("#"*50)
-print("-"*50)
+print("-"*67)
+print("[                            pyJOURNAL                            ]")
+print("-"*67)
+print("\n")
 
 
 inputchoice()
