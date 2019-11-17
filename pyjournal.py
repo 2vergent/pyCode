@@ -1,4 +1,4 @@
-import time, sys, os, platform
+import time, sys, os, platform, getpass
 from datetime import date
 
 
@@ -297,7 +297,7 @@ def login_or_signup(log):
 		v = False
 		while v == False:
 			try:
-				passwrd = input("  PASSWORD:> ")
+				passwrd = getpass.getpass("  PASSWORD:> ")
 				v = True
 			except:
 				continue
@@ -319,7 +319,7 @@ def login_or_signup(log):
 				v = False
 				while v == False:
 					try:
-						passwrd = input("  PASSWORD:> ")
+						passwrd = getpass.getpass("  PASSWORD:> ")
 						v = True
 					except:
 						continue
@@ -340,7 +340,7 @@ def login_or_signup(log):
 		v = False
 		while v == False:
 			try:
-				passwrd = input("  PASSWORD:> ")
+				passwrd = getpass.getpass("  PASSWORD:> ")
 				v = True
 			except:
 				continue
