@@ -404,7 +404,16 @@ def journal(u,p):
 				print("-"*50)
 			elif choice == "kill":
 				os._exit(0)
+			elif choice == "help":
+				print("-"*50)
+				print("   entry: Adds a new entry to your journal for this day\n   check: Accepts a date and checks previous entries in your journal")
+				print("-"*50)
+			else:
+				print("-"*50)
+				print("  Type help for more info")
+				print("-"*50)
 		except:
+			print("  Type help for more info")
 			continue
 	print("-"*50)
 	if choice == "entry":
@@ -510,8 +519,18 @@ def inputchoice():
 					os.system('clear')
 				else:
 					os.system('clear')
+			elif choice == "help":
+				print("-"*50)
+				print("To get started with pyjournal, type any of these commands:\n\n   login: Enter your username and password to access your journal\n   signup: Enter a new username and password to create your journal\n   clear: Clears the screen")
+				print("-"*50)
 		except:
+			print("Type help for more info")
 			continue
 
 
+print("-"*50)
+print("#"*50)
+print("                PYJOURNAL                ")
+print("#"*50)
+print("-"*50)
 inputchoice()
