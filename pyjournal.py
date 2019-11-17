@@ -4,12 +4,12 @@ from datetime import date
 
 def progress():
 	
-	toolbar_width = 49
+	toolbar_width = 64
 	sys.stdout.write("[%s]" % ("-" * toolbar_width))
 	sys.stdout.flush()
 	sys.stdout.write("\b" * (toolbar_width+1))
 	for _ in range(toolbar_width):
-	    time.sleep(0.03)
+	    time.sleep(0.007)
 	    sys.stdout.write("#")
 	    sys.stdout.flush()	
 	sys.stdout.write("]\n")
@@ -26,6 +26,7 @@ def actualsignup(u,p):
 	print("-"*67)
 	print("> Your credentials have been accepted.")
 	print("-"*67)
+	print("\n")
 	f.close()
 
 	inputchoice()
@@ -85,38 +86,39 @@ def actuallogin(u,p):
 	else:
 		size = os.path.getsize('/pyjournal/udata.txt')
 	if  size == 0:
-		print("> No user credentials found. Please signup for creating a new one.")
-		print("-"*67)
-		exit(0)
-	b = False
-	for x in f:
-		line = x
-		l = ""
-		for x in line:
-			l += x
-		l = l.split(' ')
-		l1 = list(l[1])
-		l2 = l1[:len(l1)-1]
-		l3 = ''.join(l2)
-		decred = decrypt(l[0],l3)
-		us = decred[0]
-		pas = decred[1]
-		if us == u and pas == p:
-			progress()
-			print("-"*67)
-			print("> You have been logged in.")
-			print("-"*67)
-			print("\n")
-			journal(u,p)
-			b = True
-			break
-	if b == False:
-		progress()
-		print("-"*67)
-		print("> You have entered invalid credentials.")
+		print("> No user credentials found. Please signup for creating a new one")
 		print("-"*67)
 		print("\n")
-	f.close()
+	else:
+		b = False
+		for x in f:
+			line = x
+			l = ""
+			for x in line:
+				l += x
+			l = l.split(' ')
+			l1 = list(l[1])
+			l2 = l1[:len(l1)-1]
+			l3 = ''.join(l2)
+			decred = decrypt(l[0],l3)
+			us = decred[0]
+			pas = decred[1]
+			if us == u and pas == p:
+				progress()
+				print("-"*67)
+				print("> You have been logged in.")
+				print("-"*67)
+				print("\n")
+				journal(u,p)
+				b = True
+				break
+		if b == False:
+			progress()
+			print("-"*67)
+			print("> You have entered invalid credentials.")
+			print("-"*67)
+			print("\n")
+		f.close()
 
 	inputchoice()
 
@@ -402,18 +404,22 @@ def journal(u,p):
 				print("-"*67)
 				print("> You already have a journal")
 				print("-"*67)
+			elif choice == "root":
+				inputchoice()
 			elif choice == "kill":
 				os._exit(0)
 			elif choice == "help":
 				print("-"*67)
-				print("   entry: Adds a new entry to your journal for this day\n   check: Accepts a date and checks previous entries in your journal")
+				print("   entry: Adds a new entry to your journal for this day\n   check: Accepts date to check previous entries in your journal")
 				print("-"*67)
+			elif choice == "":
+				continue
 			else:
 				print("-"*67)
-				print("   Command not found. Type help for more info")
+				print("Command not found. Type help for more info")
 				print("-"*67)
 		except:
-			print("   Command not found. Type help for more info")
+			print("Command not found. Type help for more info")
 			continue
 	print("-"*67)
 	if choice == "entry":
@@ -481,7 +487,7 @@ def journal(u,p):
 			print("-"*67)
 			print("  No entries on this day")
 			print("-"*67)
-			exit(0)
+			inputchoice()
 		entryout = entry.readlines()
 		out = ''
 		for x in entryout:
@@ -505,11 +511,11 @@ def inputchoice():
 			choice = choice.lower()
 			choice = choice.strip()
 			if choice == "login":
+				print("\n")
 				login()
-				q = True
 			elif choice == "signup":
+				print("\n")
 				signup()
-				q = True
 			elif choice == "kill":
 				os._exit(0)
 			elif choice == "clear":
@@ -523,19 +529,23 @@ def inputchoice():
 				print("-"*67)
 				print("To get started with pyjournal, type any of these commands:\n\n   login: Enter your username and password to access your journal\n   signup: Enter a new username and password to create your journal\n   clear: Clears the screen")
 				print("-"*67)
+			elif choice == "":
+				continue
+			elif choice == "vineeth":
+				print("   Created from scratch with passion and elegance")
 			else:
 				print("-"*67)
-				print("   Command not found. Type help for more info")
+				print("Command not found. Type help for more info")
 				print("-"*67)
 		except:
 			print("-"*67)
-			print("   Command not found. Type help for more info")
+			print("Command not found. Type help for more info")
 			print("-"*67)
 			continue
 
 
 print("-"*67)
-print("[                         pyJournal v2.2.5                        ]")
+print("[                       | pyJournal v2.3.1 |                      ]")
 print("-"*67)
 print("\n")
 
