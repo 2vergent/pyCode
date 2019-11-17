@@ -416,10 +416,10 @@ def journal(u,p):
 				continue
 			else:
 				print("-"*67)
-				print("Command not found. Type help for more info")
+				print("Command not found. Type 'help' for more info")
 				print("-"*67)
 		except:
-			print("Command not found. Type help for more info")
+			print("Command not found. Type 'help' for more info")
 			continue
 	print("-"*67)
 	if choice == "entry":
@@ -535,11 +535,11 @@ def inputchoice():
 				print("   Created from scratch with passion and elegance")
 			else:
 				print("-"*67)
-				print("Command not found. Type help for more info")
+				print("Command not found. Type 'help' for more info")
 				print("-"*67)
 		except:
 			print("-"*67)
-			print("Command not found. Type help for more info")
+			print("Command not found. Type 'help' for more info")
 			print("-"*67)
 			continue
 
