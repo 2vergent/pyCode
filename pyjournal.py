@@ -303,8 +303,7 @@ def signup():
 			v = True
 		except:
 			continue
-	q = False
-	while q == False:
+		v = False
 		special = 0
 		numbers = 0
 		for x in passwrd:
@@ -313,18 +312,12 @@ def signup():
 			elif x.isalnum() != True:
 				special += 1
 		if special >= 1 and numbers >= 1 and len(passwrd) >= 5:
-			q = True
+			v = True
 		else:
 			print("-"*67)
 			print("> Password must have special characters,numbers and should be at least 5 characters long")
 			print("-"*67)
-			v = False
-			while v == False:
-				try:
-					passwrd = getpass.getpass("   PASSWORD:> ")
-					v = True
-				except:
-					continue
+			continue
 
 	actualsignup(user,passwrd)
 
