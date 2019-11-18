@@ -89,6 +89,7 @@ def actuallogin(u,p):
 		print("> No user credentials found. Please signup for creating a new one")
 		print("-"*67)
 		print("\n")
+		f.close()
 	else:
 		b = False
 		for x in f:
@@ -394,17 +395,93 @@ def journal(u,p):
 			choice = input("<%s@pyj> " % u)
 			choice = choice.lower()
 			choice = choice.strip()
-			if choice == "check" or choice == "entry":
-				if choice == "entry":
-					print("\n")
+			if choice == "entry":
+				print("\n")
+				print("-"*67)
+				entryin = input("  ENTRY:> ")
+				print("-"*67)
+				entry = open('%s.txt' % d,'a')
+				encred = encrypt(entryin,p)
+				entry.write("%s\n" % encred[0])
+				entry.close()
+				print("\n")
+				continue
+			elif choice == "check":
+				q = False
+				while q == False:
+					try:
+						print("\n")
+						print("-"*67)
+						entrydate = input("  DATE (dd/mm/yyyy):> ")
+						testdate = entrydate.split("/")
+						_ = int(testdate[1])
+						_ = int(testdate[2])
+						q = True
+					except:
+						continue
+				def checkdate(edate):
+					edate = edate.strip()
+					datelist = edate.split("/")
+					dd = int(datelist[0])
+					mm = int(datelist[1])
+					yyyy = int(datelist[2])
+					m30 = [4,6,9,11]
+					m31 = [1,3,5,7,8,10,12]
+					m = 0
+					cd = False
+					if mm in m30:
+						if dd > 0 and dd <= 30:
+							m = 1
+					elif mm in m31:
+						if dd > 0 and dd <= 31:
+							m = 1
+					elif mm == 2:
+						if yyyy % 4 == 0:
+							if dd > 0 and dd <= 29:
+								m = 1
+						else:
+							if dd > 0 and dd <= 28:
+								m = 1
+					else:
+						return cd
+					if m == 1:
+						cd = True
+						return cd
+					else:
+						return cd
+				q = False
+				while q == False:
+					z = checkdate(entrydate)
+					if z == True:
+						q = True
+					else:
+						print("-"*67)
+						print("> You entered an invalid date.")
+						print("-"*67)
+						entrydate = input("  DATE (dd/mm/yyyy):> ")
+				print("-"*67)
+				entrydate = entrydate.replace('/','.')
+				try:
+					entry = open('%s.txt' % entrydate,'r')
+				except:
+					print("> ENTRIES DATED %s" % entrydate)
 					print("-"*67)
-					entryin = input("  ENTRY:> ")
+					print("  No entries on this day")
 					print("-"*67)
-					encred = encrypt(entryin,p)
-					entry.write("%s\n" % encred[0])
 					print("\n")
 					continue
-				v = True
+				entryout = entry.readlines()
+				out = ''
+				for x in entryout:
+					decred = decrypt(x,p)
+					out += decred[0] + '\n    '
+				out = out.strip()
+				print("> ENTRIES DATED %s :" % entrydate)
+				print("-"*67)
+				print("    %s" % out)
+				print("-"*67)
+				entry.close()
+				print("\n")
 			elif choice == "login":
 				print("-"*67)
 				print("> You are already logged in")
@@ -414,95 +491,33 @@ def journal(u,p):
 				print("> You already have a journal")
 				print("-"*67)
 			elif choice == "root":
+				print("-"*67)
+				print("> You have logged out")
+				print("-"*67)
 				inputchoice()
 			elif choice == "kill":
 				os._exit(0)
+			elif choice == "clear":
+				if platform.system() == "Windows":
+					os.system('cls')
+				elif platform.system() == "Linux":
+					os.system('clear')
+				else:
+					os.system('clear')
 			elif choice == "help":
 				print("-"*67)
-				print("   entry: Adds a new entry to your journal for this day\n   check: Accepts date to check previous entries in your journal\n   root: Go back to root")
+				print("To proceed,enter any of the following commands:\n\n   entry: Adds a new entry to your journal for this day\n   check: Accepts date to check previous entries in your journal\n   root: Go back to root")
 				print("-"*67)
 			elif choice == "":
 				continue
 			else:
 				print("-"*67)
-				print("Command not found. Type 'help' for more info")
+				print("'%s' not found. Type 'help' for more info" % choice)
 				print("-"*67)
-		except:
-			print("Command not found. Type 'help' for more info")
+		except Exception as e:
+			print(e)
+			print("'%s' not found. Type 'help' for more info" % choice)
 			continue
-	if choice == "check":
-		v = False
-		while v == False:
-			try:
-				entrydate = input("  DATE (dd/mm/yyyy):> ")
-				testdate = entrydate.split("/")
-				_ = int(testdate[1])
-				_ = int(testdate[2])
-				v = True
-			except:
-				continue
-		def checkdate(edate):
-			edate = edate.strip()
-			datelist = edate.split("/")
-			dd = int(datelist[0])
-			mm = int(datelist[1])
-			yyyy = int(datelist[2])
-			m30 = [4,6,9,11]
-			m31 = [1,3,5,7,8,10,12]
-			m = 0
-			cd = False
-			if mm in m30:
-				if dd > 0 and dd <= 30:
-					m = 1
-			elif mm in m31:
-				if dd > 0 and dd <= 31:
-					m = 1
-			elif mm == 2:
-				if yyyy % 4 == 0:
-					if dd > 0 and dd <= 29:
-						m = 1
-				else:
-					if dd > 0 and dd <= 28:
-						m = 1
-			else:
-				return cd
-			if m == 1:
-				cd = True
-				return cd
-			else:
-				return cd
-		q = False
-		while q == False:
-			z = checkdate(entrydate)
-			if z == True:
-				q = True
-			else:
-				print("-"*67)
-				print("> You entered an invalid date.")
-				print("-"*67)
-				entrydate = input("  DATE (dd/mm/yyyy):> ")
-		print("-"*67)
-		entrydate = entrydate.replace('/','.')
-		try:
-			entry = open('%s.txt' % entrydate,'r')
-		except:
-			print("> ENTRIES DATED %s" % entrydate)
-			print("-"*67)
-			print("  No entries on this day")
-			print("-"*67)
-			inputchoice()
-		entryout = entry.readlines()
-		out = ''
-		for x in entryout:
-			decred = decrypt(x,p)
-			out += decred[0] + '\n    '
-		out = out.strip()
-		print("> ENTRIES DATED %s :" % entrydate)
-		print("-"*67)
-		print("    %s" % out)
-		print("-"*67)
-
-		inputchoice()
 
 
 def inputchoice():
@@ -538,19 +553,18 @@ def inputchoice():
 				print("   Created from scratch with passion and elegance")
 			else:
 				print("-"*67)
-				print("Command not found. Type 'help' for more info")
+				print("'%s' not found. Type 'help' for more info" % choice)
 				print("-"*67)
 		except:
 			print("-"*67)
-			print("Command not found. Type 'help' for more info")
+			print("'%s' not found. Type 'help' for more info" % choice)
 			print("-"*67)
 			continue
 
 
 print("-"*67)
-print("[                       | pyJournal v2.3.1 |                      ]")
+print("[                       | pyJournal v2.4.3 |                      ]")
 print("-"*67)
 print("\n")
-
 
 inputchoice()
