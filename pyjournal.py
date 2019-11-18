@@ -395,6 +395,15 @@ def journal(u,p):
 			choice = choice.lower()
 			choice = choice.strip()
 			if choice == "check" or choice == "entry":
+				if choice == "entry":
+					print("\n")
+					print("-"*67)
+					entryin = input("  ENTRY:> ")
+					print("-"*67)
+					encred = encrypt(entryin,p)
+					entry.write("%s\n" % encred[0])
+					print("\n")
+					continue
 				v = True
 			elif choice == "login":
 				print("-"*67)
@@ -410,7 +419,7 @@ def journal(u,p):
 				os._exit(0)
 			elif choice == "help":
 				print("-"*67)
-				print("   entry: Adds a new entry to your journal for this day\n   check: Accepts date to check previous entries in your journal")
+				print("   entry: Adds a new entry to your journal for this day\n   check: Accepts date to check previous entries in your journal\n   root: Go back to root")
 				print("-"*67)
 			elif choice == "":
 				continue
@@ -421,13 +430,7 @@ def journal(u,p):
 		except:
 			print("Command not found. Type 'help' for more info")
 			continue
-	print("-"*67)
-	if choice == "entry":
-		entryin = input("  ENTRY:> ")
-		print("-"*67)
-		encred = encrypt(entryin,p)
-		entry.write("%s\n" % encred[0])
-	elif choice == "check":
+	if choice == "check":
 		v = False
 		while v == False:
 			try:
