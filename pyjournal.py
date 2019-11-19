@@ -501,7 +501,7 @@ def journal(u,p):
 					os.system('clear')
 			elif choice == "help":
 				print("-"*67)
-				print("To proceed,enter any of the following commands:\n\n   entry: Adds a new entry to your journal for this day\n   check: Accepts date to check previous entries in your journal\n   root:  Go back to root\n   clear: Clears the screen\n   kill:  Exits pyJournal")
+				print("To proceed,enter any of the following commands:\n\n   entry: Adds a new entry to your journal for this day\n   check: Accepts date to check previous entries in your journal\n   list: Lists previous entries\n   root:  Go back to root\n   clear: Clears the screen\n   kill:  Exits pyJournal")
 				print("-"*67)
 			elif choice == "quit" or choice == "exit":
 				print("-"*67)
