@@ -21,6 +21,7 @@ def actualsignup(u,p):
 	encred = encrypt(u,p)
 	f.write("%s " % encred[0])
 	f.write("%s\n" % encred[1])
+	os.mkdir('%s' % encred[0])
 	print("-"*67)
 	progress()
 	print("-"*67)
@@ -38,41 +39,52 @@ def actuallogin(u,p):
 		if 'ANDROID_STORAGE' in os.environ:
 			try:
 				os.chdir('/storage/emulated/0/pyjournal')
+			except:
+				os.chdir('/storage/emulated/0')
+				os.mkdir('pyjournal')
+				os.chdir('/storage/emulated/0/pyjournal')
+			try:
 				f = open("udata.txt","r")
 			except:
-				os.makedirs('/storage/emulated/0/pyjournal')
-				os.chdir('/storage/emulated/0/pyjournal')
 				f = open("udata.txt","w")
 				f.close()
 				f = open("udata.txt","r")
 		else:
 			try:
-				os.chdir('/pyjournal')
+				os.chdir('%s/pyjournal' % os.path.expanduser('~'))
+			except:
+				os.chdir('%s' % os.path.expanduser('~'))
+				os.mkdir('pyjournal')
+				os.chdir('%s/pyjournal' % os.path.expanduser('~'))
+			try:
 				f = open("udata.txt","r")
 			except:
-				os.makedirs('/pyjournal')
-				os.chdir('/pyjournal')
 				f = open("udata.txt","w")
 				f.close()
 				f = open("udata.txt","r")
 	elif platform.system() == "Windows":
 		try:
 			os.chdir('C:/Users/%s/Documents/pyjournal' % os.getenv('username'))
-			f = open("udata.txt","r")
 		except:
 			os.chdir('C:/Users/%s/Documents' % os.getenv('username'))
 			os.mkdir('pyjournal')
 			os.chdir('C:/Users/%s/Documents/pyjournal' % os.getenv('username'))
+		try:
+			f = open("udata.txt","r")
+		except:
 			f = open("udata.txt","w")
 			f.close()
 			f = open("udata.txt","r")
 	else:
 		try:
-			os.chdir('/pyjournal')
+			os.chdir('%s/pyjournal' % os.path.expanduser('~'))
+		except:
+			os.chdir('%s' % os.path.expanduser('~'))
+			os.mkdir('pyjournal')
+			os.chdir('%s/pyjournal' % os.path.expanduser('~'))
+		try:
 			f = open("udata.txt","r")
 		except:
-			os.makedirs('/pyjournal')
-			os.chdir('/pyjournal')
 			f = open("udata.txt","w")
 			f.close()
 			f = open("udata.txt","r")
@@ -80,11 +92,11 @@ def actuallogin(u,p):
 		if 'ANDROID_STORAGE' in os.environ:
 			size = os.path.getsize('/storage/emulated/0/pyjournal/udata.txt')
 		else:
-			size = os.path.getsize('/pyjournal/udata.txt')
+			size = os.path.getsize('%s/pyjournal/udata.txt' % os.path.expanduser('~'))
 	elif platform.system() == "Windows":
 		size = os.path.getsize('C:/Users/%s/Documents/pyjournal/udata.txt' % os.getenv('username'))
 	else:
-		size = os.path.getsize('/pyjournal/udata.txt')
+		size = os.path.getsize('%s/pyjournal/udata.txt' % os.path.expanduser('~'))
 	if  size == 0:
 		print("> No user credentials found. Use 'signup' command to get started")
 		print("-"*67)
@@ -221,41 +233,52 @@ def signup():
 			if 'ANDROID_STORAGE' in os.environ:
 				try:
 					os.chdir('/storage/emulated/0/pyjournal')
+				except:
+					os.chdir('/storage/emulated/0')
+					os.mkdir('pyjournal')
+					os.chdir('/storage/emulated/0/pyjournal')
+				try:
 					f = open("udata.txt","r")
 				except:
-					os.makedirs('/storage/emulated/0/pyjournal')
-					os.chdir('/storage/emulated/0/pyjournal')
 					f = open("udata.txt","w")
 					f.close()
 					f = open("udata.txt","r")
 			else:
 				try:
-					os.chdir('/pyjournal')
+					os.chdir('%s/pyjournal' % os.path.expanduser('~'))
+				except:
+					os.chdir('%s' % os.path.expanduser('~'))
+					os.mkdir('pyjournal')
+					os.chdir('%s/pyjournal' % os.path.expanduser('~'))
+				try:
 					f = open("udata.txt","r")
 				except:
-					os.makedirs('/pyjournal')
-					os.chdir('/pyjournal')
 					f = open("udata.txt","w")
 					f.close()
 					f = open("udata.txt","r")
 		elif platform.system() == "Windows":
 			try:
 				os.chdir('C:/Users/%s/Documents/pyjournal' % os.getenv('username'))
-				f = open("udata.txt","r")
 			except:
 				os.chdir('C:/Users/%s/Documents' % os.getenv('username'))
 				os.mkdir('pyjournal')
 				os.chdir('C:/Users/%s/Documents/pyjournal' % os.getenv('username'))
+			try:
+				f = open("udata.txt","r")
+			except:
 				f = open("udata.txt","w")
 				f.close()
 				f = open("udata.txt","r")
 		else:
 			try:
-				os.chdir('/pyjournal')
+				os.chdir('%s/pyjournal' % os.path.expanduser('~'))
+			except:
+				os.chdir('%s' % os.path.expanduser('~'))
+				os.mkdir('pyjournal')
+				os.chdir('%s/pyjournal' % os.path.expanduser('~'))
+			try:
 				f = open("udata.txt","r")
 			except:
-				os.makedirs('/pyjournal')
-				os.chdir('/pyjournal')
 				f = open("udata.txt","w")
 				f.close()
 				f = open("udata.txt","r")
@@ -350,33 +373,13 @@ def journal(u,p):
 	username = encrypt(u,p)
 	if platform.system() == "Linux":
 		if 'ANDROID_STORAGE' in os.environ:
-			try:
-				os.chdir('/storage/emulated/0/pyjournal/%s' % username[0])
-			except:
-				os.chdir('/storage/emulated/0/pyjournal')
-				os.mkdir(username[0])
-				os.chdir('/storage/emulated/0/pyjournal/%s' % username[0])
+			os.chdir('/storage/emulated/0/pyjournal/%s' % username[0])
 		else:
-			try:
-				os.chdir('/pyjournal/%s' % username[0])
-			except:
-				os.chdir('/pyjournal')
-				os.mkdir(username[0])
-				os.chdir('/pyjournal/%s' % username[0])
+			os.chdir('%s/pyjournal/%s' % (os.path.expanduser('~'),username[0]))
 	elif platform.system() == "Windows":
-		try:
-			os.chdir('C:/Users/%s/Documents/pyjournal/%s' % (os.getenv('username'),username[0]))
-		except:
-			os.chdir('C:/Users/%s/Documents/pyjournal' % os.getenv('username'))
-			os.mkdir(username[0])
-			os.chdir('C:/Users/%s/Documents/pyjournal/%s' % (os.getenv('username'),username[0]))
+		os.chdir('C:/Users/%s/Documents/pyjournal/%s' % (os.getenv('username'),username[0]))
 	else:
-		try:
-			os.chdir('/pyjournal/%s' % username[0])
-		except:
-			os.chdir('/pyjournal')
-			os.mkdir(username[0])
-			os.chdir('/pyjournal/%s' % username[0])
+		os.chdir('%s/pyjournal/%s' % (os.path.expanduser('~'),username[0]))
 	today = date.today()
 	d = today.strftime("%d/%m/%Y")
 	d = d.split("/")
@@ -542,8 +545,8 @@ def listentries(u,p):
 				days = ""
 			print("-"*67)
 		else:
-			os.chdir('/pyjournal/%s' % user)
-			files = os.listdir('/pyjournal/%s' % user)
+			os.chdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
+			files = os.listdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
 			print("-"*67)
 			for month in months:
 				for x in files:
@@ -576,8 +579,8 @@ def listentries(u,p):
 			days = ""
 		print("-"*67)
 	else:
-		os.chdir('/pyjournal/%s' % user)
-		files = os.listdir('/pyjournal/%s' % user)
+		os.chdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
+		files = os.listdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
 		print("-"*67)
 		for month in months:
 			for x in files:
@@ -643,7 +646,7 @@ def inputchoice():
 
 
 print("-"*67)
-print("[                       | pyJournal v2.5 |                        ]")
+print("[                       | pyJournal v3.0 |                        ]")
 print("-"*67)
 print("\n")
 
