@@ -1,6 +1,7 @@
 ----------------------------------------------------------------------------------------------
 |                                       pyJournal v3.0.1                                     |
 ----------------------------------------------------------------------------------------------
+
 * pyJournal, a clean and elegant Journal, is written in python.
 * It runs on multiple platforms with ease and maintains all your journal entries in a neat way 
   which can be accessed by you anytime.
