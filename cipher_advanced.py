@@ -1,9 +1,14 @@
 q = False
 while (q!=True):
-	choicer = input("Do you want to Encode or Decode a message?\n")
-	print("-"*40)
-	choice = choicer.lower()
-	choicer = choice.strip()
+	print("-"*67)
+	print("Do you want to Encode or Decode a message?")
+	print("-"*67)
+	try:
+		choicer = input("> ")
+	except:
+		continue
+	choicer = choicer.lower()
+	choicer = choicer.strip()
 	if (choicer=="decode" or choicer=="encode"):
 		q = True
 
@@ -14,8 +19,9 @@ eng = ["you","are","password","name","have","has","late","early","come","possibl
 # Based on user input, program encodes/decodes the message
 
 if (choicer == 'decode'):
+	print("-"*67)
 	cipherin= input("Enter the Encoded message: ")
-	print("-"*40)
+	print("-"*67)
 	h = False
 	while h!=True: 
 		try:
@@ -26,7 +32,7 @@ if (choicer == 'decode'):
 			h = True
 		else:
 			continue
-	print("-"*40,"\n")
+	print("-"*67)
 	cipher = cipherin.lower()
 	ciplet = list(cipher)
 	de = []
@@ -46,11 +52,10 @@ if (choicer == 'decode'):
 		dejoin = ''.join(de)
 		dejoin = str(dejoin)
 		decoded = dejoin.upper()
-		print("The Decoded message:","\n")
-		print(decoded,"\n")
-		print("-"*40)
+		print("The Decoded message: ",decoded)
+		print("-"*67)
 		print("Enjoy the Secrecy")
-		print("-"*40)
+		print("-"*67)
 	else:
 		for t in range(1,26):
 			for a in ciplet:
@@ -69,29 +74,28 @@ if (choicer == 'decode'):
 				wordup = word.upper()
 				result = decoded.find(wordup)
 				if (result!=-1):
-					print("The Decoded message with shift","+",t,":","\n")
-					print(decoded,"\n")
+					print("The Decoded message with shift","+",t,": ",decoded)
 					de = []
-					print("-"*40)
+					print("-"*67)
 					print("Enjoy your secrecy")
-					print("-"*40,"\n")
+					print("-"*67,"\n")
 					exit(0)
 				else:
 					continue
 			# If no common english words were found, the program prints all the 25 shifts
 			if (result==-1):
-				print("The Decoded message with shift","+",t,":","\n")
-				print(decoded,"\n")
+				print("The Decoded message with shift","+",t,": ",decoded)
 				de = []
-				print("-"*40)
-				print("-"*40,"\n")
+				print("-"*67)
+				print("-"*67,"\n")
 				continue
 		print("Enjoy your secrecy")
-		print("-"*40)
+		print("-"*67)
 
 elif (choicer == 'encode'):
+	print("-"*67)
 	cipherin2= input("Enter the message: ")
-	print("-"*20)
+	print("-"*67)
 	m = False
 	while m!=True: 
 		try:
@@ -102,7 +106,7 @@ elif (choicer == 'encode'):
 			m = True
 		else:
 			continue
-	print("-"*40)
+	print("-"*67)
 	cipher2 = cipherin2.lower()
 	ciplet2 = list(cipher2)
 	de2 = []
@@ -121,6 +125,6 @@ elif (choicer == 'encode'):
 		dejoin2 = str(dejoin2)
 		encoded = dejoin2.upper()
 		print("The Encoded message:",encoded)
-		print("-"*40)
+		print("-"*67)
 		print("Enjoy the Secrecy")
-		print("-"*40)	
+		print("-"*67)	
