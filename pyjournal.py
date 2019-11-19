@@ -486,6 +486,8 @@ def journal(u,p):
 				print("> You have logged out")
 				print("-"*67)
 				inputchoice()
+			elif choice == "list":
+				listentries(u,p)
 			elif choice == "kill":
 				os._exit(0)
 			elif choice == "clear":
@@ -497,7 +499,11 @@ def journal(u,p):
 					os.system('clear')
 			elif choice == "help":
 				print("-"*67)
-				print("To proceed,enter any of the following commands:\n\n   entry: Adds a new entry to your journal for this day\n   check: Accepts date to check previous entries in your journal\n   root:  Go back to root\n   kill:  Exits pyJournal")
+				print("To proceed,enter any of the following commands:\n\n   entry: Adds a new entry to your journal for this day\n   check: Accepts date to check previous entries in your journal\n   root:  Go back to root\n   clear: Clears the screen\n   kill:  Exits pyJournal")
+				print("-"*67)
+			elif choice == "quit" or choice == "exit":
+				print("-"*67)
+				print("Use 'kill' to stop pyJournal")
 				print("-"*67)
 			elif choice == "":
 				continue
@@ -509,6 +515,83 @@ def journal(u,p):
 			print(e)
 			print("'%s': Command not found. Type 'help' for more info" % choice)
 			continue
+
+
+def listentries(u,p):
+
+	encred = encrypt(u,p)
+	user,passwrd = encred[0],encred[1]
+	months = {'1':'January','2':'Feburary','3':'March','4':'April','5':'May','6':'June','7':'July','8':'August','9':'September','10':'October','11':'November','12':'December'}
+	days = ""
+	if platform.system() == "Linux":
+		if 'ANDROID_STORAGE' in os.environ:
+			os.chdir('/storage/emulated/0/pyjournal/%s' % user)
+			files = os.listdir('/storage/emulated/0/pyjournal/%s' % user)
+			print("-"*67)
+			for month in months:
+				for x in files:
+					entry = x[:len(x)-4]
+					try:
+						entry = entry.split(".")
+					except:
+						continue
+					if int(entry[1]) == int(month):
+						days += "|" + str(entry[0]) + "|"
+				if days != "":
+					print("   %s:" % months[month],days)
+				days = ""
+			print("-"*67)
+		else:
+			os.chdir('/pyjournal/%s' % user)
+			files = os.listdir('/pyjournal/%s' % user)
+			print("-"*67)
+			for month in months:
+				for x in files:
+					entry = x[:len(x)-4]
+					try:
+						entry = entry.split(".")
+					except:
+						continue
+					if int(entry[1]) == int(month):
+						days += "|" + str(entry[0]) + "|"
+				if days != "":
+					print("%s:" % months[month],days)
+				days = ""
+			print("-"*67)
+	elif platform.system() == "Windows":
+		os.chdir('C:/Users/%s/Documents/pyjournal/%s' % (os.getenv('username'),user))
+		files = os.listdir('C:/Users/%s/Documents/pyjournal/%s' % (os.getenv('username'),user))
+		print("-"*67)
+		for month in months:
+			for x in files:
+				entry = x[:len(x)-4]
+				try:
+					entry = entry.split(".")
+				except:
+					continue
+				if int(entry[1]) == int(month):
+					days += "|" + str(entry[0]) + "|"
+			if days != "":
+				print("%s:" % months[month],days)
+			days = ""
+		print("-"*67)
+	else:
+		os.chdir('/pyjournal/%s' % user)
+		files = os.listdir('/pyjournal/%s' % user)
+		print("-"*67)
+		for month in months:
+			for x in files:
+				entry = x[:len(x)-4]
+				try:
+					entry = entry.split(".")
+				except:
+					continue
+				if int(entry[1]) == int(month):
+					days += "|" + str(entry[0]) + "|"
+			if days != "":
+				print("%s:" % months[month],days)
+			days = ""
+		print("-"*67)
 
 
 def inputchoice():
@@ -542,7 +625,11 @@ def inputchoice():
 				continue
 			elif choice == "vineeth":
 				print("-"*67)
-				print("   Created from scratch with passion and elegance")
+				print("      Created from scratch with passion and elegance in mind")
+				print("-"*67)
+			elif choice == "quit" or choice == "exit":
+				print("-"*67)
+				print("Use 'kill' to stop pyJournal")
 				print("-"*67)
 			else:
 				print("-"*67)
@@ -556,8 +643,9 @@ def inputchoice():
 
 
 print("-"*67)
-print("[                       | pyJournal v2.4.4 |                      ]")
+print("[                       | pyJournal v2.5 |                        ]")
 print("-"*67)
 print("\n")
+
 
 inputchoice()
