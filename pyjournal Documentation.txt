@@ -1,0 +1,26 @@
+----------------------------------------------------------------------------------------------
+|                                       pyJournal v3.0.1                                     |
+----------------------------------------------------------------------------------------------
+* pyJournal, a clean and elegant Journal, is written in python.
+* It runs on multiple platforms with ease and maintains all your journal entries in a neat way 
+  which can be accessed by you anytime.
+* With just a few commands to remember, it can't get easier than this.
+
+* There are two profiles:
+	1. @Root: This profile is used to login or signup
+	2. @xxxx: This profile is created when you login and xxxx is replaced by your username
+* Commands for @root:
+	1. login: Login to your journal and start making entries
+	2. signup: Signup for a new journal
+	3. clear: Clears the screen. Trust me, you might use this a lot
+	4. kill: Quits pyjournal instantly
+* Commands for @xxxx:
+	1. entry: Adds a new entry to your journal for the day
+	2. check: Asks for a date to check previous entries in your journal
+	3. root: Switches back to @root profile
+	4. list: Lists all your entries based on months and days
+	4. clear: Clears the screen
+	5. kill: Quits pyjournal instantly
+
+* In any of the profiles, you can type "help" to get the above information displayed
+* BONUS* Type "vineeth", to see an easter egg
