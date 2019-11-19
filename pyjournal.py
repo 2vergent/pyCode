@@ -384,7 +384,6 @@ def journal(u,p):
 	d = today.strftime("%d/%m/%Y")
 	d = d.split("/")
 	d = '.'.join(d)
-	entry = open('%s.txt' % d,'a')
 	v = False
 	while v == False:
 		try:
@@ -523,13 +522,18 @@ def journal(u,p):
 def listentries(u,p):
 
 	encred = encrypt(u,p)
-	user,passwrd = encred[0],encred[1]
+	user = encred[0]
 	months = {'1':'January','2':'Feburary','3':'March','4':'April','5':'May','6':'June','7':'July','8':'August','9':'September','10':'October','11':'November','12':'December'}
 	days = ""
 	if platform.system() == "Linux":
 		if 'ANDROID_STORAGE' in os.environ:
 			os.chdir('/storage/emulated/0/pyjournal/%s' % user)
 			files = os.listdir('/storage/emulated/0/pyjournal/%s' % user)
+			if files == []:
+				print("-"*67)
+				print("> No Entries to be listed")
+				print("-"*67)
+				return 0
 			print("-"*67)
 			for month in months:
 				for x in files:
@@ -547,6 +551,11 @@ def listentries(u,p):
 		else:
 			os.chdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
 			files = os.listdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
+			if files == []:
+				print("-"*67)
+				print("> No Entries to be listed")
+				print("-"*67)
+				return 0
 			print("-"*67)
 			for month in months:
 				for x in files:
@@ -558,12 +567,17 @@ def listentries(u,p):
 					if int(entry[1]) == int(month):
 						days += "|" + str(entry[0]) + "|"
 				if days != "":
-					print("%s:" % months[month],days)
+					print("   %s:" % months[month],days)
 				days = ""
 			print("-"*67)
 	elif platform.system() == "Windows":
 		os.chdir('C:/Users/%s/Documents/pyjournal/%s' % (os.getenv('username'),user))
 		files = os.listdir('C:/Users/%s/Documents/pyjournal/%s' % (os.getenv('username'),user))
+		if files == []:
+			print("-"*67)
+			print("> No Entries to be listed")
+			print("-"*67)
+			return 0
 		print("-"*67)
 		for month in months:
 			for x in files:
@@ -575,12 +589,17 @@ def listentries(u,p):
 				if int(entry[1]) == int(month):
 					days += "|" + str(entry[0]) + "|"
 			if days != "":
-				print("%s:" % months[month],days)
+				print("   %s:" % months[month],days)
 			days = ""
 		print("-"*67)
 	else:
 		os.chdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
 		files = os.listdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
+		if files == []:
+			print("-"*67)
+			print("> No Entries to be listed")
+			print("-"*67)
+			return 0
 		print("-"*67)
 		for month in months:
 			for x in files:
@@ -592,7 +611,7 @@ def listentries(u,p):
 				if int(entry[1]) == int(month):
 					days += "|" + str(entry[0]) + "|"
 			if days != "":
-				print("%s:" % months[month],days)
+				print("   %s:" % months[month],days)
 			days = ""
 		print("-"*67)
 
@@ -646,7 +665,7 @@ def inputchoice():
 
 
 print("-"*67)
-print("[                       | pyJournal v3.0 |                        ]")
+print("[                      | pyJournal v3.0.1 |                        ]")
 print("-"*67)
 print("\n")
 
