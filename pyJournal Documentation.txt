@@ -9,11 +9,13 @@
 * There are two profiles:
 	1. @Root: This profile is used to login or signup
 	2. @xxxx: This profile is created when you login and xxxx is replaced by your username
+
 * Commands for @root:
 	1. login: Login to your journal and start making entries
 	2. signup: Signup for a new journal
 	3. clear: Clears the screen. Trust me, you might use this a lot
 	4. kill: Quits pyjournal instantly
+
 * Commands for @xxxx:
 	1. entry: Adds a new entry to your journal for the day
 	2. check: Asks for a date to check previous entries in your journal
