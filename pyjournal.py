@@ -602,8 +602,6 @@ def listentries(u,p):
 		print("-"*67)
 
 
-
-
 def editentries(u,p):
 
 	print("-"*67)
