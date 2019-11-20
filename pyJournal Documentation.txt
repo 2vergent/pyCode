@@ -12,10 +12,10 @@
 	2. @xxxx: This profile is created when you login and xxxx is replaced by your username
 
 * Commands for @root:
-	1. login: Login to your journal and start making entries
+	1. login:  Login to your journal and start making entries
 	2. signup: Signup for a new journal
-	3. clear: Clears the screen. Trust me, you might use this a lot
-	4. kill: Quits pyjournal instantly
+	3. clear:  Clears the screen. Trust me, you might use this a lot
+	4. kill:   Quits pyjournal instantly
 
 * Commands for @xxxx:
 	1. entry: Adds a new entry to your journal for the day
@@ -32,5 +32,5 @@
 
 * Known issues:
         1. Compatibility with macOS is still questionable
-        2. Even though the data stored in the files is encrypted end-to-end,
-           the files can be accessed by anyone and changed by anyone
+        2. Even though the data stored in the files is encrypted end-to-end, the files can be 
+	   accessed by anyone and changed by anyone
