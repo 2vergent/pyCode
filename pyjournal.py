@@ -39,99 +39,68 @@ def actuallogin(u,p):
 		if 'ANDROID_STORAGE' in os.environ:
 			try:
 				os.chdir('/storage/emulated/0/pyjournal')
-			except:
-				os.chdir('/storage/emulated/0')
-				os.mkdir('pyjournal')
-				os.chdir('/storage/emulated/0/pyjournal')
-			try:
 				f = open("udata.txt","r")
 			except:
-				f = open("udata.txt","w")
-				f.close()
-				f = open("udata.txt","r")
-		else:
-			try:
-				os.chdir('%s/pyjournal' % os.path.expanduser('~'))
-			except:
-				os.chdir('%s' % os.path.expanduser('~'))
-				os.mkdir('pyjournal')
-				os.chdir('%s/pyjournal' % os.path.expanduser('~'))
-			try:
-				f = open("udata.txt","r")
-			except:
-				f = open("udata.txt","w")
-				f.close()
-				f = open("udata.txt","r")
-	elif platform.system() == "Windows":
-		try:
-			os.chdir('C:/Users/%s/Documents/pyjournal' % os.getenv('username'))
-		except:
-			os.chdir('C:/Users/%s/Documents' % os.getenv('username'))
-			os.mkdir('pyjournal')
-			os.chdir('C:/Users/%s/Documents/pyjournal' % os.getenv('username'))
-		try:
-			f = open("udata.txt","r")
-		except:
-			f = open("udata.txt","w")
-			f.close()
-			f = open("udata.txt","r")
-	else:
-		try:
-			os.chdir('%s/pyjournal' % os.path.expanduser('~'))
-		except:
-			os.chdir('%s' % os.path.expanduser('~'))
-			os.mkdir('pyjournal')
-			os.chdir('%s/pyjournal' % os.path.expanduser('~'))
-		try:
-			f = open("udata.txt","r")
-		except:
-			f = open("udata.txt","w")
-			f.close()
-			f = open("udata.txt","r")
-	if platform.system() == "Linux":
-		if 'ANDROID_STORAGE' in os.environ:
-			size = os.path.getsize('/storage/emulated/0/pyjournal/udata.txt')
-		else:
-			size = os.path.getsize('%s/pyjournal/udata.txt' % os.path.expanduser('~'))
-	elif platform.system() == "Windows":
-		size = os.path.getsize('C:/Users/%s/Documents/pyjournal/udata.txt' % os.getenv('username'))
-	else:
-		size = os.path.getsize('%s/pyjournal/udata.txt' % os.path.expanduser('~'))
-	if  size == 0:
-		print("> No user credentials found. Use 'signup' command to get started")
-		print("-"*67)
-		print("\n")
-		f.close()
-	else:
-		b = False
-		for x in f:
-			line = x
-			l = ""
-			for x in line:
-				l += x
-			l = l.split(' ')
-			l1 = list(l[1])
-			l2 = l1[:len(l1)-1]
-			l3 = ''.join(l2)
-			decred = decrypt(l[0],l3)
-			us = decred[0]
-			pas = decred[1]
-			if us == u and pas == p:
-				progress()
-				print("-"*67)
-				print("> Login Successful")
+				print("> No user credentials found. Use 'signup' command to get started")
 				print("-"*67)
 				print("\n")
-				journal(u,p)
-				b = True
-				break
-		if b == False:
-			progress()
-			print("-"*67)
-			print("> Invalid User Credentials")
+				inputchoice()
+		else:
+			try:
+				os.chdir('%s/pyjournal' % os.path.expanduser('~'))
+				f = open("udata.txt","r")
+			except:
+				print("> No user credentials found. Use 'signup' command to get started")
+				print("-"*67)
+				print("\n")
+				inputchoice()
+	elif platform.system() == "Windows":
+		try:
+			os.chdir('C:/Users/%s/Documents/pyjournal' % os.getenv('username'))
+			f = open("udata.txt","r")
+		except:
+			print("> No user credentials found. Use 'signup' command to get started")
 			print("-"*67)
 			print("\n")
-		f.close()
+			inputchoice()
+	else:
+		try:
+			os.chdir('%s/pyjournal' % os.path.expanduser('~'))
+			f = open("udata.txt","r")
+		except:
+			print("> No user credentials found. Use 'signup' command to get started")
+			print("-"*67)
+			print("\n")
+			inputchoice()
+	b = False
+	for x in f:
+		line = x
+		l = ""
+		for x in line:
+			l += x
+		l = l.split(' ')
+		l1 = list(l[1])
+		l2 = l1[:len(l1)-1]
+		l3 = ''.join(l2)
+		decred = decrypt(l[0],l3)
+		us = decred[0]
+		pas = decred[1]
+		if us == u and pas == p:
+			progress()
+			print("-"*67)
+			print("> Login Successful")
+			print("-"*67)
+			print("\n")
+			journal(u,p)
+			b = True
+			break
+	if b == False:
+		progress()
+		print("-"*67)
+		print("> Invalid User Credentials")
+		print("-"*67)
+		print("\n")
+	f.close()
 
 	inputchoice()
 
@@ -411,6 +380,8 @@ def journal(u,p):
 						_ = int(testdate[2])
 						q = True
 					except:
+						print("-"*67)
+						print("> You entered an invalid date. Recheck the date format")
 						continue
 				def checkdate(edate):
 					edate = edate.strip()
@@ -418,6 +389,8 @@ def journal(u,p):
 					dd = int(datelist[0])
 					mm = int(datelist[1])
 					yyyy = int(datelist[2])
+					if len(str(yyyy)) < 4:
+						return False
 					m30 = [4,6,9,11]
 					m31 = [1,3,5,7,8,10,12]
 					m = 0
@@ -449,7 +422,7 @@ def journal(u,p):
 						q = True
 					else:
 						print("-"*67)
-						print("> You entered an invalid date")
+						print("> You entered an invalid date. Recheck the date format")
 						print("-"*67)
 						entrydate = input("   DATE (dd/mm/yyyy):> ")
 				print("-"*67)
@@ -665,7 +638,7 @@ def inputchoice():
 
 
 print("-"*67)
-print("[                      | pyJournal v3.0.1 |                         ]")
+print("[                      | pyJournal v3.0.2 |                       ]")
 print("-"*67)
 print("\n")
 
