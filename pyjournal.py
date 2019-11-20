@@ -1,18 +1,5 @@
-import time, sys, os, platform, getpass
+import sys, os, platform, getpass
 from datetime import date
-
-
-def progress():
-	
-	toolbar_width = 64
-	sys.stdout.write("[%s]" % ("-" * toolbar_width))
-	sys.stdout.flush()
-	sys.stdout.write("\b" * (toolbar_width+1))
-	for _ in range(toolbar_width):
-	    time.sleep(0.007)
-	    sys.stdout.write("#")
-	    sys.stdout.flush()	
-	sys.stdout.write("]\n")
 
 
 def actualsignup(u,p):
@@ -23,9 +10,7 @@ def actualsignup(u,p):
 	f.write("%s\n" % encred[1])
 	os.mkdir('%s' % encred[0])
 	print("-"*67)
-	progress()
-	print("-"*67)
-	print("> User Credentials successfully written")
+	print("> USER CREDENTIALS SUCCESSFULLY WRITTEN")
 	print("-"*67)
 	print("\n")
 	f.close()
@@ -86,18 +71,14 @@ def actuallogin(u,p):
 		us = decred[0]
 		pas = decred[1]
 		if us == u and pas == p:
-			progress()
-			print("-"*67)
-			print("> Login Successful")
+			print("> LOGIN SUCCESSFUL")
 			print("-"*67)
 			print("\n")
 			journal(u,p)
 			b = True
 			break
 	if b == False:
-		progress()
-		print("-"*67)
-		print("> Invalid User Credentials")
+		print("> INVALID USER CREDENTIALS")
 		print("-"*67)
 		print("\n")
 	f.close()
@@ -183,7 +164,8 @@ def decrypt(u,p):
 	
 def signup():
 
-	progress()
+	print("-"*67)
+	print("> SIGNUP : ")
 	q = False
 	r = 0
 	def us():
@@ -315,7 +297,8 @@ def signup():
 
 def login():
 
-	progress()
+	print("-"*67)
+	print("> LOGIN : ")
 	print("-"*67)
 	v = False
 	while v == False:
@@ -335,6 +318,41 @@ def login():
 	print("-"*67)
 
 	actuallogin(user,passwrd)
+
+
+def checkdate(edate):
+
+	edate = edate.strip()
+	datelist = edate.split("/")
+	dd = int(datelist[0])
+	mm = int(datelist[1])
+	yyyy = int(datelist[2])
+	if len(str(yyyy)) < 4:
+		return False
+	m30 = [4,6,9,11]
+	m31 = [1,3,5,7,8,10,12]
+	m = 0
+	cd = False
+	if mm in m30:
+		if dd > 0 and dd <= 30:
+			m = 1
+	elif mm in m31:
+		if dd > 0 and dd <= 31:
+			m = 1
+	elif mm == 2:
+		if yyyy % 4 == 0:
+			if dd > 0 and dd <= 29:
+				m = 1
+		else:
+			if dd > 0 and dd <= 28:
+				m = 1
+	else:
+		return cd
+	if m == 1:
+		cd = True
+		return cd
+	else:
+		return cd
 
 
 def journal(u,p):
@@ -364,9 +382,25 @@ def journal(u,p):
 				entryin = input("  ENTRY:> ")
 				print("-"*67)
 				entry = open('%s.txt' % d,'a')
-				encred = encrypt(entryin,p)
-				entry.write("%s\n" % encred[0])
-				entry.close()
+				if os.path.getsize('%s.txt' % d) == 0:
+					entryin = "1 | " + entryin
+					encred = encrypt(entryin,p)
+					entry.write("%s\n" % (encred[0]))
+					entry.close()
+				else:
+					entry = open('%s.txt' % d,'r')
+					lines = entry.readlines()
+					lastline = lines[-1]
+					lastdecrypt = decrypt(lastline,p)
+					lm = lastdecrypt[0].split(' | ')
+					lastnum = int(lm[0]) + 1
+					entry.close()
+					entry = open('%s.txt' % d,'a')
+					lastnum = "%s | " % str(lastnum)
+					entryin = lastnum + entryin
+					encred = encrypt(entryin,p)
+					entry.write("%s\n" % (encred[0]))
+					entry.close()
 				print("\n")
 				continue
 			elif choice == "check":
@@ -383,38 +417,6 @@ def journal(u,p):
 						print("-"*67)
 						print("> You entered an invalid date. Recheck the date format")
 						continue
-				def checkdate(edate):
-					edate = edate.strip()
-					datelist = edate.split("/")
-					dd = int(datelist[0])
-					mm = int(datelist[1])
-					yyyy = int(datelist[2])
-					if len(str(yyyy)) < 4:
-						return False
-					m30 = [4,6,9,11]
-					m31 = [1,3,5,7,8,10,12]
-					m = 0
-					cd = False
-					if mm in m30:
-						if dd > 0 and dd <= 30:
-							m = 1
-					elif mm in m31:
-						if dd > 0 and dd <= 31:
-							m = 1
-					elif mm == 2:
-						if yyyy % 4 == 0:
-							if dd > 0 and dd <= 29:
-								m = 1
-						else:
-							if dd > 0 and dd <= 28:
-								m = 1
-					else:
-						return cd
-					if m == 1:
-						cd = True
-						return cd
-					else:
-						return cd
 				q = False
 				while q == False:
 					z = checkdate(entrydate)
@@ -428,26 +430,35 @@ def journal(u,p):
 				print("-"*67)
 				entrydate = entrydate.replace('/','.')
 				try:
-					entry = open('%s.txt' % entrydate,'r')
+					entry = open("%s.txt" % entrydate,"r")
 				except:
 					print("> ENTRIES DATED %s" % entrydate)
 					print("-"*67)
-					print("   No entries on this day")
+					print("> No entries on this day")
 					print("-"*67)
 					print("\n")
 					continue
-				entryout = entry.readlines()
-				out = ''
-				for x in entryout:
-					decred = decrypt(x,p)
-					out += decred[0] + '\n    '
-				out = out.strip()
-				print("> ENTRIES DATED %s :" % entrydate)
-				print("-"*67)
-				print("    %s" % out)
-				print("-"*67)
-				entry.close()
-				print("\n")
+				if os.path.getsize("%s.txt" % entrydate) == 0:
+					print("> ENTRIES DATED %s" % entrydate)
+					print("-"*67)
+					print("> No entries on this day")
+					print("-"*67)
+					print("\n")
+					continue
+				else:
+					entry = open('%s.txt' % entrydate,'r')
+					entryout = entry.readlines()
+					out = ''
+					for x in entryout:
+						decred = decrypt(x,p)
+						out += decred[0] + '\n    '
+					out = out.strip()
+					print("> ENTRIES DATED %s :" % entrydate)
+					print("-"*67)
+					print("    %s" % out)
+					print("-"*67)
+					entry.close()
+					print("\n")
 			elif choice == "login":
 				print("-"*67)
 				print("> You are already logged in")
@@ -463,6 +474,8 @@ def journal(u,p):
 				inputchoice()
 			elif choice == "list":
 				listentries(u,p)
+			elif choice == "edit":
+				editentries(u,p)
 			elif choice == "kill":
 				os._exit(0)
 			elif choice == "clear":
@@ -474,7 +487,7 @@ def journal(u,p):
 					os.system('clear')
 			elif choice == "help":
 				print("-"*67)
-				print("To proceed,enter any of the following commands:\n\n   entry: Adds a new entry to your journal for this day\n   check: Accepts date to check previous entries in your journal\n   list: Lists previous entries\n   root:  Go back to root\n   clear: Clears the screen\n   kill:  Exits pyJournal")
+				print("To proceed,enter any of the following commands:\n\n   entry: Adds a new entry to your journal for this day\n   check: Accepts date to check previous entries in your journal\n   list:  Lists previous entries\n   edit: Delete Entries in your Journal\n   root:  Go back to root\n   clear: Clears the screen\n   kill:  Exits pyJournal")
 				print("-"*67)
 			elif choice == "quit" or choice == "exit":
 				print("-"*67)
@@ -589,6 +602,87 @@ def listentries(u,p):
 		print("-"*67)
 
 
+
+
+def editentries(u,p):
+
+	print("-"*67)
+	q = False
+	while q == False:
+		try:
+			date = input("   DATE (dd/mm/yyyy):> ")
+			testdate = date.split("/")
+			_ = int(testdate[1])
+			_ = int(testdate[2])
+			print("-"*67)
+			z = checkdate(date)
+			if z == True:
+				q = True
+		except:
+			print("-"*67)
+			print("> You entered an invalid date. Recheck the date format")
+			print("-"*67)
+			continue
+	edate = date.strip()
+	datelist = edate.split("/")
+	d = '.'.join(datelist)
+	try:
+		entry = open("%s.txt" % d,"r")
+	except:
+		print("> No Entries on this day to edit")
+		print("-"*67)
+		print("\n")
+		return 0
+	lines = entry.readlines()
+	entry.close()
+	linenum = len(lines)
+	out = ''
+	for x in lines:
+		decred = decrypt(x,p)
+		out += decred[0] + '\n    '
+	out = out.strip()
+	print("> ENTRIES DATED %s :" % d)
+	print("-"*67)
+	print("    %s" % out)
+	print("-"*67)
+	entry.close()
+	q = False
+	while q == False:
+		try:
+			num = int(input("   ENTRY NUMBER:> "))
+			print("-"*67)
+			if num <= linenum:
+				q = True
+			else:
+				print("> Recheck Entered Entry Number")
+				print("-"*67)
+		except:
+			print("> Recheck Entered Entry Number")
+			print("-"*67)
+			continue
+	entries = out.split('\n    ')
+	for x in entries:
+		if x.startswith(str(num)):
+			entries.remove(x)
+	linenum = 1
+	edit = []
+	for x in entries:
+		edited = x.replace(x[0],str(linenum))
+		edit.append(edited)
+		linenum += 1
+	editedentry = ""
+	for x in edit:
+		x = x.strip()
+		encred = encrypt(x,p)
+		editedentry += encred[0] + '\n'
+	entry = open("%s.txt" % d,"w")
+	entry.write(editedentry)
+	entry.close()
+	print("> Entry Deletion Successful")
+	print("-"*67)
+	print("\n")
+
+
 def inputchoice():
 		
 	q = False
@@ -598,10 +692,8 @@ def inputchoice():
 			choice = choice.lower()
 			choice = choice.strip()
 			if choice == "login":
-				print("\n")
 				login()
 			elif choice == "signup":
-				print("\n")
 				signup()
 			elif choice == "kill":
 				os._exit(0)
@@ -638,7 +730,7 @@ def inputchoice():
 
 
 print("-"*67)
-print("[                      | pyJournal v3.0.2 |                       ]")
+print("[                       | pyJournal v4.0.1 |                      ]")
 print("-"*67)
 print("\n")
 
