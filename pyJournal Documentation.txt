@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------------------
-|                                       pyJournal v3.0.2                                     |
+|                                       pyJournal v4.0.1                                     |
 ----------------------------------------------------------------------------------------------
 
 * pyJournal, a clean and elegant Journal, is written in python.
@@ -20,10 +20,17 @@
 * Commands for @xxxx:
 	1. entry: Adds a new entry to your journal for the day
 	2. check: Asks for a date to check previous entries in your journal
-	3. root: Switches back to @root profile
-	4. list: Lists all your entries based on months and days
-	4. clear: Clears the screen
-	5. kill: Quits pyjournal instantly
+	3. root:  Switches back to @root profile
+        4. edit:  Edit previous entries
+	5. list:  Lists all your entries based on months and days
+	6. clear: Clears the screen
+	7. kill:  Quits pyjournal instantly
 
 * In any of the profiles, you can type "help" to get the above information displayed
-* BONUS* Type "vineeth", to see an easter egg
+
+* BONUS* Type "vineeth", to see what pyJournal displays
+
+* Known issues:
+        1. Compatibility with macOS is still questionable
+        2. Even though the data stored in the files is encrypted end-to-end,
+           the files can be accessed by anyone and changed by anyone
