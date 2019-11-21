@@ -477,6 +477,7 @@ def journal(u,p):
 			elif choice == "edit":
 				editentries(u,p)
 			elif choice == "kill":
+				print("-"*67)
 				os._exit(0)
 			elif choice == "clear":
 				if platform.system() == "Windows":
@@ -517,7 +518,7 @@ def listentries(u,p):
 			files = os.listdir('/storage/emulated/0/pyjournal/%s' % user)
 			if files == []:
 				print("-"*67)
-				print("> No Entries to be listed")
+				print("  No Entries to be listed")
 				print("-"*67)
 				return 0
 			print("-"*67)
@@ -539,7 +540,7 @@ def listentries(u,p):
 			files = os.listdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
 			if files == []:
 				print("-"*67)
-				print("> No Entries to be listed")
+				print("  No Entries to be listed")
 				print("-"*67)
 				return 0
 			print("-"*67)
@@ -561,7 +562,7 @@ def listentries(u,p):
 		files = os.listdir('C:/Users/%s/Documents/pyjournal/%s' % (os.getenv('username'),user))
 		if files == []:
 			print("-"*67)
-			print("> No Entries to be listed")
+			print("  No Entries to be listed")
 			print("-"*67)
 			return 0
 		print("-"*67)
@@ -583,7 +584,7 @@ def listentries(u,p):
 		files = os.listdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
 		if files == []:
 			print("-"*67)
-			print("> No Entries to be listed")
+			print("  No Entries to be listed")
 			print("-"*67)
 			return 0
 		print("-"*67)
@@ -626,6 +627,8 @@ def editentries(u,p):
 	d = '.'.join(datelist)
 	try:
 		entry = open("%s.txt" % d,"r")
+		if os.path.getsize("%s.txt" % d) == 0:
+			raise Exception
 	except:
 		print("> No Entries on this day to edit")
 		print("-"*67)
@@ -633,7 +636,10 @@ def editentries(u,p):
 		return 0
 	lines = entry.readlines()
 	entry.close()
-	linenum = len(lines)
+	linenum = []
+	for x in lines:
+		n = int(x[0]) - 1
+		linenum.append(str(n))
 	out = ''
 	for x in lines:
 		decred = decrypt(x,p)
@@ -644,30 +650,38 @@ def editentries(u,p):
 	print("    %s" % out)
 	print("-"*67)
 	entry.close()
+	count = 0
 	q = False
 	while q == False:
 		try:
-			num = int(input("   ENTRY NUMBER:> "))
+			num = input("   ENTRY NUMBER:> ")
+			num = num.split(",")
 			print("-"*67)
-			if num <= linenum:
+			for x in num:
+				for y in linenum:
+					if x in linenum:
+						count += 1
+			if count/len(num) == len(linenum):
 				q = True
 			else:
-				print("> Recheck Entered Entry Number")
+				print("> Recheck Entered Entry Number(s)")
 				print("-"*67)
+				count = 0
 		except:
-			print("> Recheck Entered Entry Number")
+			print("> Recheck Entered Entry Number(s)")
 			print("-"*67)
 			continue
 	entries = out.split('\n    ')
-	for x in entries:
-		if x.startswith(str(num)):
-			entries.remove(x)
-	linenum = 1
+	for x in num:
+		for y in entries:
+			if y.startswith(str(x)):
+				entries.remove(y)
+	repnum = 1
 	edit = []
 	for x in entries:
-		edited = x.replace(x[0],str(linenum))
+		edited = x.replace(x[0],str(repnum))
 		edit.append(edited)
-		linenum += 1
+		repnum += 1
 	editedentry = ""
 	for x in edit:
 		x = x.strip()
@@ -694,6 +708,7 @@ def inputchoice():
 			elif choice == "signup":
 				signup()
 			elif choice == "kill":
+				print("-"*67)
 				os._exit(0)
 			elif choice == "clear":
 				if platform.system() == "Windows":
@@ -728,7 +743,7 @@ def inputchoice():
 
 
 print("-"*67)
-print("[                       | pyJournal v4.0.1 |                      ]")
+print("[                       | pyJournal v4.1.1 |                      ]")
 print("-"*67)
 print("\n")
 
