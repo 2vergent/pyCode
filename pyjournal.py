@@ -15,7 +15,7 @@ def actualsignup(u,p):
 	print("\n")
 	f.close()
 
-	inputchoice()
+	root()
 
 
 def actuallogin(u,p):
@@ -29,7 +29,7 @@ def actuallogin(u,p):
 				print("> No user credentials found. Use 'signup' command to get started")
 				print("-"*67)
 				print("\n")
-				inputchoice()
+				root()
 		else:
 			try:
 				os.chdir('%s/pyjournal' % os.path.expanduser('~'))
@@ -38,7 +38,7 @@ def actuallogin(u,p):
 				print("> No user credentials found. Use 'signup' command to get started")
 				print("-"*67)
 				print("\n")
-				inputchoice()
+				root()
 	elif platform.system() == "Windows":
 		try:
 			os.chdir('C:/Users/%s/Documents/pyjournal' % os.getenv('username'))
@@ -47,7 +47,7 @@ def actuallogin(u,p):
 			print("> No user credentials found. Use 'signup' command to get started")
 			print("-"*67)
 			print("\n")
-			inputchoice()
+			root()
 	else:
 		try:
 			os.chdir('%s/pyjournal' % os.path.expanduser('~'))
@@ -56,7 +56,7 @@ def actuallogin(u,p):
 			print("> No user credentials found. Use 'signup' command to get started")
 			print("-"*67)
 			print("\n")
-			inputchoice()
+			root()
 	b = False
 	for x in f:
 		line = x
@@ -83,7 +83,7 @@ def actuallogin(u,p):
 		print("\n")
 	f.close()
 
-	inputchoice()
+	root()
 
 
 def encrypt(u,p):
@@ -295,6 +295,7 @@ def signup():
 
 	actualsignup(user,passwrd)
 
+
 def login():
 
 	print("-"*67)
@@ -471,7 +472,7 @@ def journal(u,p):
 				print("-"*67)
 				print("> You have logged out")
 				print("-"*67)
-				inputchoice()
+				root()
 			elif choice == "list":
 				listentries(u,p)
 			elif choice == "edit":
@@ -606,96 +607,211 @@ def listentries(u,p):
 def editentries(u,p):
 
 	print("-"*67)
-	q = False
-	while q == False:
+	t = False
+	while t == False:
 		try:
-			date = input("   DATE (dd/mm/yyyy):> ")
-			testdate = date.split("/")
-			_ = int(testdate[1])
-			_ = int(testdate[2])
-			print("-"*67)
-			z = checkdate(date)
-			if z == True:
-				q = True
+			choice = input("   $edit@%s:> " % u)
 		except:
-			print("-"*67)
-			print("> You entered an invalid date. Recheck the date format")
-			print("-"*67)
 			continue
-	edate = date.strip()
-	datelist = edate.split("/")
-	d = '.'.join(datelist)
-	try:
-		entry = open("%s.txt" % d,"r")
-		if os.path.getsize("%s.txt" % d) == 0:
-			raise Exception
-	except:
-		print("> No Entries on this day to edit")
-		print("-"*67)
-		print("\n")
-		return 0
-	lines = entry.readlines()
-	entry.close()
-	linenum = []
-	for x in lines:
-		n = int(x[0]) - 1
-		linenum.append(str(n))
-	out = ''
-	for x in lines:
-		decred = decrypt(x,p)
-		out += decred[0] + '\n    '
-	out = out.strip()
-	print("> ENTRIES DATED %s :" % d)
-	print("-"*67)
-	print("    %s" % out)
-	print("-"*67)
-	entry.close()
-	count = 0
-	q = False
-	while q == False:
-		try:
-			num = input("   ENTRY NUMBER:> ")
-			num = num.split(",")
+		choice = choice.lower()
+		choice = choice.strip()
+		if choice == "del":
 			print("-"*67)
-			for x in num:
-				for y in linenum:
-					if x in linenum:
-						count += 1
-			if count/len(num) == len(linenum):
-				q = True
-			else:
-				print("> Recheck Entered Entry Number(s)")
+			q = False
+			while q == False:
+				try:
+					date = input("      DATE (dd/mm/yyyy):> ")
+					testdate = date.split("/")
+					_ = int(testdate[1])
+					_ = int(testdate[2])
+					print("-"*67)
+					z = checkdate(date)
+					if z == True:
+						q = True
+					else:
+						raise Exception
+				except:
+					print("   > You entered an invalid date. Recheck the date format")
+					print("-"*67)
+					continue
+			edate = date.strip()
+			datelist = edate.split("/")
+			d = '.'.join(datelist)
+			try:
+				entry = open("%s.txt" % d,"r")
+				if os.path.getsize("%s.txt" % d) == 0:
+					raise Exception
+			except:
+				print("   > No Entries on this day to edit")
 				print("-"*67)
-				count = 0
-		except:
-			print("> Recheck Entered Entry Number(s)")
+				print("\n")
+				return 0
+			lines = entry.readlines()
+			entry.close()
+			linenum = []
+			for x in lines:
+				n = int(x[0]) - 1
+				linenum.append(str(n))
+			out = ''
+			for x in lines:
+				decred = decrypt(x,p)
+				out += decred[0] + '\n    '
+			out = out.strip()
+			print("    > ENTRIES DATED %s :" % d)
+			print("-"*67)
+			print("    %s" % out)
+			print("-"*67)
+			entry.close()
+			count = 0
+			q = False
+			while q == False:
+				try:
+					num = input("      ENTRY NUMBER:> ")
+					num = num.split(",")
+					print("-"*67)
+					for x in num:
+						for y in linenum:
+							if x in linenum:
+								count += 1
+					if count/len(num) == len(linenum):
+						q = True
+					else:
+						raise Exception
+				except:
+					print("   > Recheck Entered Entry Number(s)")
+					print("-"*67)
+					continue
+			entries = out.split('\n    ')
+			for x in num:
+				for y in entries:
+					if y.startswith(str(x)):
+						entries.remove(y)
+			repnum = 1
+			edit = []
+			for x in entries:
+				edited = x.replace(x[0],str(repnum))
+				edit.append(edited)
+				repnum += 1
+			editedentry = ""
+			for x in edit:
+				x = x.strip()
+				encred = encrypt(x,p)
+				editedentry += encred[0] + '\n'
+			entry = open("%s.txt" % d,"w")
+			entry.write(editedentry)
+			entry.close()
+			print("    > Entry Deletion Successful")
+			print("-"*67)
+			print("\n")
+			continue
+		elif choice == "add":
+			print("-"*67)
+			q = False
+			while q == False:
+				try:
+					date = input("      DATE (dd/mm/yyyy):> ")
+					testdate = date.split("/")
+					_ = int(testdate[1])
+					_ = int(testdate[2])
+					print("-"*67)
+					z = checkdate(date)
+					if z == True:
+						q = True
+					else:
+						raise Exception
+				except:
+					print("-"*67)
+					print("   > You entered an invalid date. Recheck the date format")
+					print("-"*67)
+					continue
+			edate = date.strip()
+			datelist = edate.split("/")
+			d = '.'.join(datelist)
+			entry = open("%s.txt" % d, "a")
+			if os.path.getsize("%s.txt" % d) == 0:
+				print("    > No Previous Entries ")
+				print("-"*67)
+				entry.close()
+			else:
+				entry.close()
+				entry = open("%s.txt" % d,"r")
+				lines = entry.readlines()
+				out = ""
+				for x in lines:
+					decred = decrypt(x,p)
+					out += decred[0] + '\n        '
+				out = out.strip()
+				print("    > Entries in this Journal: ")
+				print("-"*67)
+				print("        %s" % out)
+				print("-"*67)
+				entry.close()
+			q = False
+			while q == False:
+				try:
+					addentry = input("      ADD:> ")
+					if addentry != "":
+						q = True
+				except:
+					continue
+			if os.path.getsize('%s.txt' % d) == 0:
+				entry = open("%s.txt" % d,"a")
+				addentry = "1 | " + addentry
+				encred = encrypt(addentry,p)
+				entry.write("%s\n" % (encred[0]))
+				print("-"*67)
+				print("    > ADDITION OF ENTRY SUCCESSFUL")
+				print("-"*67)
+				entry.close()
+			else:
+				entry = open('%s.txt' % d,'r')
+				lines = entry.readlines()
+				lastline = lines[-1]
+				lastdecrypt = decrypt(lastline,p)
+				lm = lastdecrypt[0].split(' | ')
+				lastnum = int(lm[0]) + 1
+				entry.close()
+				entry = open('%s.txt' % d,'a')
+				lastnum = "%s | " % str(lastnum)
+				addentry = lastnum + addentry
+				encred = encrypt(addentry,p)
+				entry.write("%s\n" % (encred[0]))
+				entry.close()
+				print("-"*67)
+				print("    > ADDITION OF ENTRY SUCCESSFUL")
+				print("-"*67)
+				print("\n")
+				continue
+		elif choice == "@%s" % u:
+			print("-"*67)
+			print("\n")
+			return 0
+		elif choice == "help":
+			print("      Type any of these following commands:\n\n        add: Adds an entry to a existing/new Journal\n       del: Deletes an entry from an existing/new Journal\n        @<your-username>: Goes back to your Journal\n        root: Goes back to root\n        kill: Quits pyJournal\n        clear: Clears the screen")
+		elif choice == "root":
+			print("-"*67)
+			print("\n")
+			root()
+		elif choice == "kill":
+			print("\n")
+			os._exit(0)
+		elif choice == "":
+			continue
+		elif choice == "clear":
+			if platform.system() == "Windows":
+				os.system('cls')
+			elif platform.system() == "Linux":
+				os.system('clear')
+			else:
+				os.system('clear')
+		else:
+			print("-"*67)
+			print("     '%s': Command not found. Type 'help' for more info" % choice)
 			print("-"*67)
 			continue
-	entries = out.split('\n    ')
-	for x in num:
-		for y in entries:
-			if y.startswith(str(x)):
-				entries.remove(y)
-	repnum = 1
-	edit = []
-	for x in entries:
-		edited = x.replace(x[0],str(repnum))
-		edit.append(edited)
-		repnum += 1
-	editedentry = ""
-	for x in edit:
-		x = x.strip()
-		encred = encrypt(x,p)
-		editedentry += encred[0] + '\n'
-	entry = open("%s.txt" % d,"w")
-	entry.write(editedentry)
-	entry.close()
-	print("> Entry Deletion Successful")
-	print("-"*67)
-	print("\n")
 
 
-def inputchoice():
+def root():
 		
 	q = False
 	while q == False:
@@ -708,7 +824,7 @@ def inputchoice():
 			elif choice == "signup":
 				signup()
 			elif choice == "kill":
-				print("-"*67)
+				print("\n")
 				os._exit(0)
 			elif choice == "clear":
 				if platform.system() == "Windows":
@@ -732,9 +848,7 @@ def inputchoice():
 				print("Use 'kill' to stop pyJournal")
 				print("-"*67)
 			else:
-				print("-"*67)
-				print("'%s': Command not found. Type 'help' for more info" % choice)
-				print("-"*67)
+				raise Exception
 		except:
 			print("-"*67)
 			print("'%s': Command not found. Type 'help' for more info" % choice)
@@ -743,9 +857,9 @@ def inputchoice():
 
 
 print("-"*67)
-print("[                       | pyJournal v4.1.1 |                      ]")
+print("[                       | pyJournal v4.2.1 |                      ]")
 print("-"*67)
 print("\n")
 
 
-inputchoice()
+root()
