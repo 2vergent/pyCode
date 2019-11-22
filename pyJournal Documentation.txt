@@ -8,8 +8,8 @@
 * With just a few commands to remember, it can't get easier than this.
 
 * There are three profiles:
-	1. @Root: This profile is used to login or signup
-	2. @xxxx: This profile is created when you login and xxxx is replaced by your username
+	1. @Root:     This profile is used to login or signup
+	2. @xxxx:     This profile is created when you login and xxxx is replaced by your username
         3. edit@xxxx: This profile is used to add/delete entries
 
 * Commands for @root:
@@ -29,12 +29,12 @@
 	7. kill:  Quits pyJournal instantly
 
 * Commands for edit@xxxx:
-        1. add: Adds an entry under any date specified
-        2. del: Deletes entry(s) from a Journal
+        1. add:   Adds an entry under any date specified
+        2. del:   Deletes entry(s) from a Journal
         3. @xxxx: Go back to your user profile(@xxxx)
-        4. root: Goes back to root
+        4. root:  Goes back to root
         5. clear: Clears the screen
-        6. kill: Quits pyJournal instantly
+        6. kill:  Quits pyJournal instantly
 
 * In any of the profiles, you can type "help" to get the above information displayed
 
