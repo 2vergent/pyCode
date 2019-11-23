@@ -1,4 +1,4 @@
-import sys, os, platform, getpass, traceback
+import sys, os, platform, getpass
 from datetime import date
 
 
