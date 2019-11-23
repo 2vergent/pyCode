@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------------------
-|                                       pyJournal v4.2.1                                     |
+|                                       pyJournal v4.3.1                                     |
 ----------------------------------------------------------------------------------------------
 
 * pyJournal, a clean and elegant Journal, is written in python.
@@ -35,6 +35,8 @@
         4. root:  Goes back to root
         5. clear: Clears the screen
         6. kill:  Quits pyJournal instantly
+        * You can delete multiple entries by giving entry numbers separated by commas
+          Example: 4,5,7
 
 * In any of the profiles, you can type "help" to get the above information displayed
 
