@@ -1,4 +1,4 @@
-import sys, os, platform, getpass
+import sys, os, platform, getpass, traceback
 from datetime import date
 
 
@@ -502,7 +502,7 @@ def journal(u,p):
 				print("'%s': Command not found. Type 'help' for more info" % choice)
 				print("-"*67)
 		except Exception as e:
-			print(e)
+			print(traceback.format_exc())
 			print("'%s': Command not found. Type 'help' for more info" % choice)
 			continue
 
@@ -511,7 +511,7 @@ def listentries(u,p):
 
 	encred = encrypt(u,p)
 	user = encred[0]
-	months = {'1':'January','2':'Feburary','3':'March','4':'April','5':'May','6':'June','7':'July','8':'August','9':'September','10':'October','11':'November','12':'December'}
+	months = {'1':'January  ','2':'February ','3':'March    ','4':'April    ','5':'May      ','6':'June     ','7':'July     ','8':'August   ','9':'September','10':'October  ','11':'November ','12':'December '}
 	days = ""
 	if platform.system() == "Linux":
 		if 'ANDROID_STORAGE' in os.environ:
@@ -531,9 +531,10 @@ def listentries(u,p):
 					except:
 						continue
 					if int(entry[1]) == int(month):
-						days += "|" + str(entry[0]) + "|"
+						days += "|" + str(entry[0]) + " "+ entry[2] + "|"
 				if days != "":
-					print("   %s:" % months[month],days)
+					print("   %s:  %s" % (months[month],days))
+					print("  ","-"*61)
 				days = ""
 			print("-"*67)
 		else:
@@ -553,9 +554,10 @@ def listentries(u,p):
 					except:
 						continue
 					if int(entry[1]) == int(month):
-						days += "|" + str(entry[0]) + "|"
+						days += "|" + str(entry[0]) + " "+ entry[2] + "|"
 				if days != "":
-					print("   %s:" % months[month],days)
+					print("   %s:  %s" % (months[month],days))
+					print("  ","-"*61)
 				days = ""
 			print("-"*67)
 	elif platform.system() == "Windows":
@@ -575,9 +577,10 @@ def listentries(u,p):
 				except:
 					continue
 				if int(entry[1]) == int(month):
-					days += "|" + str(entry[0]) + "|"
+					days += "|" + str(entry[0]) + " "+ entry[2] + "|"
 			if days != "":
-				print("   %s:" % months[month],days)
+				print("   %s:  %s" % (months[month],days))
+				print("  ","-"*61)
 			days = ""
 		print("-"*67)
 	else:
@@ -597,9 +600,10 @@ def listentries(u,p):
 				except:
 					continue
 				if int(entry[1]) == int(month):
-					days += "|" + str(entry[0]) + "|"
+						days += "|" + str(entry[0]) + " "+ entry[2] + "|"
 			if days != "":
-				print("   %s:" % months[month],days)
+					print("   %s:  %s" % (months[month],days))
+					print("  ","-"*61)
 			days = ""
 		print("-"*67)
 
@@ -624,15 +628,16 @@ def editentries(u,p):
 					testdate = date.split("/")
 					_ = int(testdate[1])
 					_ = int(testdate[2])
-					print("-"*67)
+					print("     ","-"*61)
 					z = checkdate(date)
 					if z == True:
 						q = True
 					else:
 						raise Exception
 				except:
-					print("   > You entered an invalid date. Recheck the date format")
-					print("-"*67)
+					print("     ","-"*61)
+					print("      > You entered an invalid date. Recheck the date format")
+					print("     ","-"*61)
 					continue
 			edate = date.strip()
 			datelist = edate.split("/")
@@ -658,9 +663,9 @@ def editentries(u,p):
 				out += decred[0] + '\n    '
 			out = out.strip()
 			print("    > ENTRIES DATED %s :" % d)
-			print("-"*67)
+			print("     ","-"*61)
 			print("    %s" % out)
-			print("-"*67)
+			print("     ","-"*61)
 			entry.close()
 			count = 0
 			q = False
@@ -668,7 +673,7 @@ def editentries(u,p):
 				try:
 					num = input("      ENTRY NUMBER:> ")
 					num = num.split(",")
-					print("-"*67)
+					print("     ","-"*61)
 					for x in num:
 						for y in linenum:
 							if x in linenum:
@@ -678,8 +683,9 @@ def editentries(u,p):
 					else:
 						raise Exception
 				except:
+					print(traceback.format_exc())
 					print("   > Recheck Entered Entry Number(s)")
-					print("-"*67)
+					print("     ","-"*61)
 					continue
 			entries = out.split('\n    ')
 			for x in num:
@@ -701,7 +707,7 @@ def editentries(u,p):
 			entry.write(editedentry)
 			entry.close()
 			print("    > Entry Deletion Successful")
-			print("-"*67)
+			print("     ","-"*61)
 			print("\n")
 			continue
 		elif choice == "add":
@@ -713,16 +719,16 @@ def editentries(u,p):
 					testdate = date.split("/")
 					_ = int(testdate[1])
 					_ = int(testdate[2])
-					print("-"*67)
+					print("     ","-"*61)
 					z = checkdate(date)
 					if z == True:
 						q = True
 					else:
 						raise Exception
 				except:
-					print("-"*67)
+					print("     ","-"*61)
 					print("   > You entered an invalid date. Recheck the date format")
-					print("-"*67)
+					print("     ","-"*61)
 					continue
 			edate = date.strip()
 			datelist = edate.split("/")
@@ -730,7 +736,7 @@ def editentries(u,p):
 			entry = open("%s.txt" % d, "a")
 			if os.path.getsize("%s.txt" % d) == 0:
 				print("    > No Previous Entries ")
-				print("-"*67)
+				print("     ","-"*61)
 				entry.close()
 			else:
 				entry.close()
@@ -739,12 +745,12 @@ def editentries(u,p):
 				out = ""
 				for x in lines:
 					decred = decrypt(x,p)
-					out += decred[0] + '\n        '
+					out += decred[0] + '\n     '
 				out = out.strip()
 				print("    > Entries in this Journal: ")
-				print("-"*67)
-				print("        %s" % out)
-				print("-"*67)
+				print("     ","-"*61)
+				print("     %s" % out)
+				print("     ","-"*61)
 				entry.close()
 			q = False
 			while q == False:
@@ -759,9 +765,9 @@ def editentries(u,p):
 				addentry = "1 | " + addentry
 				encred = encrypt(addentry,p)
 				entry.write("%s\n" % (encred[0]))
-				print("-"*67)
+				print("     ","-"*61)
 				print("    > ADDITION OF ENTRY SUCCESSFUL")
-				print("-"*67)
+				print("     ","-"*61)
 				entry.close()
 			else:
 				entry = open('%s.txt' % d,'r')
@@ -777,9 +783,9 @@ def editentries(u,p):
 				encred = encrypt(addentry,p)
 				entry.write("%s\n" % (encred[0]))
 				entry.close()
-				print("-"*67)
+				print("     ","-"*61)
 				print("    > ADDITION OF ENTRY SUCCESSFUL")
-				print("-"*67)
+				print("     ","-"*61)
 				print("\n")
 				continue
 		elif choice == "@%s" % u:
@@ -787,7 +793,9 @@ def editentries(u,p):
 			print("\n")
 			return 0
 		elif choice == "help":
-			print("      Type any of these following commands:\n\n        add: Adds an entry to a existing/new Journal\n       del: Deletes an entry from an existing/new Journal\n        @<your-username>: Goes back to your Journal\n        root: Goes back to root\n        kill: Quits pyJournal\n        clear: Clears the screen")
+			print("  ","-"*64)
+			print("      Type any of these following commands:\n\n        add: Adds an entry to a existing/new Journal\n        del: Deletes an entry from an existing/new Journal\n        @<your-username>: Goes back to your Journal\n        root: Goes back to root\n        kill: Quits pyJournal\n        clear: Clears the screen")
+			print("  ","-"*64)
 		elif choice == "root":
 			print("-"*67)
 			print("\n")
@@ -857,7 +865,7 @@ def root():
 
 
 print("-"*67)
-print("[                       | pyJournal v4.2.1 |                      ]")
+print("[                       | pyJournal v4.3.1 |                      ]")
 print("-"*67)
 print("\n")
 
