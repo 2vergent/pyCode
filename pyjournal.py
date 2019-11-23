@@ -501,8 +501,7 @@ def journal(u,p):
 				print("-"*67)
 				print("'%s': Command not found. Type 'help' for more info" % choice)
 				print("-"*67)
-		except Exception as e:
-			print(traceback.format_exc())
+		except:
 			print("'%s': Command not found. Type 'help' for more info" % choice)
 			continue
 
@@ -531,7 +530,7 @@ def listentries(u,p):
 					except:
 						continue
 					if int(entry[1]) == int(month):
-						days += "|" + str(entry[0]) + " "+ entry[2] + "|"
+						days += "|" + str(entry[0]) + "-"+ entry[2] + "|"
 				if days != "":
 					print("   %s:  %s" % (months[month],days))
 					print("  ","-"*61)
@@ -554,7 +553,7 @@ def listentries(u,p):
 					except:
 						continue
 					if int(entry[1]) == int(month):
-						days += "|" + str(entry[0]) + " "+ entry[2] + "|"
+						days += "|" + str(entry[0]) + "-"+ entry[2] + "|"
 				if days != "":
 					print("   %s:  %s" % (months[month],days))
 					print("  ","-"*61)
@@ -577,7 +576,7 @@ def listentries(u,p):
 				except:
 					continue
 				if int(entry[1]) == int(month):
-					days += "|" + str(entry[0]) + " "+ entry[2] + "|"
+					days += "|" + str(entry[0]) + "-"+ entry[2] + "|"
 			if days != "":
 				print("   %s:  %s" % (months[month],days))
 				print("  ","-"*61)
@@ -600,7 +599,7 @@ def listentries(u,p):
 				except:
 					continue
 				if int(entry[1]) == int(month):
-						days += "|" + str(entry[0]) + " "+ entry[2] + "|"
+						days += "|" + str(entry[0]) + "-"+ entry[2] + "|"
 			if days != "":
 					print("   %s:  %s" % (months[month],days))
 					print("  ","-"*61)
@@ -673,6 +672,8 @@ def editentries(u,p):
 				try:
 					num = input("      ENTRY NUMBER:> ")
 					num = num.split(",")
+					if "" in num:
+						raise Exception
 					print("     ","-"*61)
 					for x in num:
 						for y in linenum:
@@ -683,7 +684,6 @@ def editentries(u,p):
 					else:
 						raise Exception
 				except:
-					print(traceback.format_exc())
 					print("   > Recheck Entered Entry Number(s)")
 					print("     ","-"*61)
 					continue
@@ -768,6 +768,7 @@ def editentries(u,p):
 				print("     ","-"*61)
 				print("    > ADDITION OF ENTRY SUCCESSFUL")
 				print("     ","-"*61)
+				print("\n")
 				entry.close()
 			else:
 				entry = open('%s.txt' % d,'r')
