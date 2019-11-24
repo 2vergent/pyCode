@@ -516,6 +516,10 @@ def listentries(u,p):
 		if 'ANDROID_STORAGE' in os.environ:
 			os.chdir('/storage/emulated/0/pyjournal/%s' % user)
 			files = os.listdir('/storage/emulated/0/pyjournal/%s' % user)
+			for x in files:
+				if os.path.getsize('%s' % x) == 0:
+					os.remove('%s' % x)
+			files = os.listdir('/storage/emulated/0/pyjournal/%s' % user)
 			if files == []:
 				print("-"*67)
 				print("  No Entries to be listed")
@@ -538,6 +542,10 @@ def listentries(u,p):
 			print("-"*67)
 		else:
 			os.chdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
+			files = os.listdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
+			for x in files:
+				if os.path.getsize('%s' % x) == 0:
+					os.remove('%s' % x)
 			files = os.listdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
 			if files == []:
 				print("-"*67)
@@ -562,6 +570,10 @@ def listentries(u,p):
 	elif platform.system() == "Windows":
 		os.chdir('C:/Users/%s/Documents/pyjournal/%s' % (os.getenv('username'),user))
 		files = os.listdir('C:/Users/%s/Documents/pyjournal/%s' % (os.getenv('username'),user))
+		for x in files:
+			if os.path.getsize('%s' % x) == 0:
+				os.remove('%s' % x)
+		files = os.listdir('C:/Users/%s/Documents/pyjournal/%s' % (os.getenv('username'),user))
 		if files == []:
 			print("-"*67)
 			print("  No Entries to be listed")
@@ -584,6 +596,10 @@ def listentries(u,p):
 		print("-"*67)
 	else:
 		os.chdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
+		files = os.listdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
+		for x in files:
+			if os.path.getsize('%s' % x) == 0:
+				os.remove('%s' % x)
 		files = os.listdir('%s/pyjournal/%s' % (os.path.expanduser('~'),user))
 		if files == []:
 			print("-"*67)
@@ -866,7 +882,7 @@ def root():
 
 
 print("-"*67)
-print("[                       | pyJournal v4.3.1 |                      ]")
+print("[                       | pyJournal v4.3.2 |                      ]")
 print("-"*67)
 print("\n")
 
