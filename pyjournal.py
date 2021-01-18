@@ -1,3 +1,4 @@
+# Sorry for not adding comments, no hard feelings
 import sys, os, platform, getpass
 from datetime import date
 
