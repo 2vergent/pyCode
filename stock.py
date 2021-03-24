@@ -54,18 +54,31 @@ plt.plot(dates, ema_long50, "g")
 ema_long60 = df['Adj Close'].ewm(span=x, adjust=False).mean()
 plt.plot(dates, ema_long60, "g")
 
+short_score = 0
+
+for x in range(len(ema_short3) - 1, len(ema_short3)):
+    if (int(ema_short3[x] - ema_short5[x]) in range(-5, 5)):
+        short_score = short_score + 1
+    if (int(ema_short8[x] - ema_short10[x]) in range(-5, 5)):
+        short_score = short_score + 1
+    if (int(ema_short10[x] - ema_short12[x]) in range(-5, 5)):
+        short_score = short_score + 1
+
+print("Short Score: ", short_score)
+
+long_score = 0
+
+for x in range(len(ema_long30) - 1, len(ema_long30)):
+    if (int(ema_long30[x] - ema_long35[x]) in range(50)):
+        long_score = long_score + 1
+    if (int(ema_long40[x] - ema_long45[x]) in range(50)):
+        long_score = long_score + 1
+    if (int(ema_long50[x] - ema_long60[x]) in range(50)):
+        long_score = long_score + 1
+
+print("Long score: ", long_score)
 
 
-
-
-'''short_start = []
-long_start = []
-
-x = 0
-while (x < 248):
-    short_start.append(ema_short[x])
-    long_start.append(ema_long[x])
-    x = x + 5'''
 
 #plotting adjusted close values
 plt.plot(dates, adj_close, "b")
